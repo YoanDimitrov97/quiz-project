@@ -10,7 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  },
   "devDependencies": {
     "nodemon": "^2.0.0"
   }

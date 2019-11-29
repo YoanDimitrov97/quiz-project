@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const User = require("../models/users.model");
-
+const bcrypt = require("bcryptjs");
 
 router.route('/').get((req, res) => {
     User.find()
@@ -12,7 +12,7 @@ router.route('/add').post((req, res) => {
     const username = req.body.username;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const password = req.body.password;
+    const password = bcrypt.hashSync(req.body.password, 10);
     const email = req.body.email;
     const createdOn = new Date();
 
