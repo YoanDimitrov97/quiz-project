@@ -18,18 +18,33 @@
             <li><a href="">Register</a></li>
         </ul>
 
-        <form method="POST" action="/" class="login">
-            <input type="text" placeholder="First name">
-            <input type="text" placeholder="Last name">
-            <input type="text" placeholder="Username">
-            <input type="password" placeholder="Password">
-            <input type="email" placeholder="Email">
-            <input class="pesho" type="submit" value="Login">
-        </div>
+        <form id="test">
+            <input type="text" name="fname" placeholder="First name">
+            <input type="text" name="lname" placeholder="Last name">
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="pass" placeholder="Password">
+            <input type="email" name="email" placeholder="Email">
+           <!-- <input class="pesho" type="submit" value="Login">-->
+            <div class="pesho"> Register</div>
+        </form>
     </div>
-    <script src="js/functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script>
-        console.log(window.location.hostname);
+        $(".pesho").click(() => {
+            var test = $("#test").serializeArray();
+            console.log(test);
+            console.log(test[3].value);
+            axios.post('http://127.0.0.1:5000/register/add',
+                {username:test[2].value, firstName:test[0].value, lastName:test[1].value, password:test[3].value, email:test[4].value})
+            .then(console.log("User written success"))
+            .catch(err => console.error(err));
+            // axios.get('http://127.0.0.1:5000/register') 
+            // .then((res) => console.log(res.data))
+            // .catch(err => console.error(err));
+        })
+        
+        //console.log(window.location.hostname);
     </script>
 </body>
 </html>

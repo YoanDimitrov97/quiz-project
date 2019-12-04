@@ -9,6 +9,7 @@ router.route('/').get((req, res) => {
 })
 
 router.route('/add').post((req, res) => {
+    // const pass = passHash(req.body.password);
     const username = req.body.username;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -29,5 +30,6 @@ router.route('/add').post((req, res) => {
     .then(() => res.json("User created!"))
     .catch(err => res.status(400).json("Error: " + err));
 })
+
 
 module.exports = router;

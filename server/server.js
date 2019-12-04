@@ -1,10 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(cors());
 app.use(express.json());
+
 
 //connect to db
 mongoose.connect('mongodb://localhost:27017/quiz', {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology: true});
@@ -15,7 +19,6 @@ connection.once('open', () => {
 
 
 //****Routing*****
-
 //loading quizes
 const quizRouter = require('./routes/quiz');
 app.use('/', quizRouter);
