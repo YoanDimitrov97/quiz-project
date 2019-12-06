@@ -11,7 +11,7 @@ app.use(express.json());
 
 
 //connect to db
-mongoose.connect('mongodb://localhost:27017/quiz', {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://quizRoot:quizRoot@quiz-cluster-dqqzj.mongodb.net/Quiz-Project?retryWrites=true&w=majority', {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology: true});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection establied successfully!");
