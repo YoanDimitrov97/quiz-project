@@ -50,7 +50,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script>
         $(".pesho").click(() => {
-            var test = $(".test").serializeArray();
+            var test = $(".register_form").serializeArray();
             console.log(test);
             console.log(test[3].value);
             axios.post('http://127.0.0.1:5000/register/add',
