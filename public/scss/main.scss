@@ -1,75 +1,24 @@
-* {
-    margin: 0;
-    padding: 0;
-    list-style:none;
-    text-decoration:none;
-    box-sizing:border-box;
-}
+$nav_height :60px;
+$body_h:calc(100vh - 60px);
+$quizW: 520px;
 
 @font-face {
     font-family: Estandar;
     src: url("../fonts/Estandar-Regular.ttf");
   }
 
+* {
+    margin: 0;
+    padding: 0;
+    list-style:none;
+    text-decoration:none;
+    box-sizing:border-box;
+    font-family:"Estandar";
+}
+
 body {
     background: transparent linear-gradient(1deg, #1C011B 0%, #5D083C 100%) 0% 0% no-repeat padding-box;
     height:100vh;
-}
-
-.header {
-    background: transparent linear-gradient(90deg, #AA076B 0%, #61045F 100%) 0% 0% no-repeat padding-box;
-    box-shadow: 0px 0px 10px #000000;
-    height:60px;
-    display:grid;
-
-    grid-template-columns: minmax(calc(100% - 200px) ,95%) minmax(200px, 5%);
-
-    .nav {
-        display:flex;
-        justify-self: center;
-        justify-content: center;
-        align-items:center;
-        width:100%;
-        margin-left:200px;
-    
-        li a {
-            color:#E8D0DF;
-            padding:0 10px;
-        }
-    }
-    
-    .nav_login {
-        display: flex;
-        justify-self:end;
-        justify-content:space-around;
-        align-items:center;
-        position:relative;
-        width:100%;
-    
-        li a {
-            color:#E8D0DF;
-            padding:0 10px;
-        }
-    }
-}
-
-.register_form {
-    position:absolute;
-    top:60px;
-    left:calc(100% - 200px);
-    width:200px;
-    display:grid;
-    justify-content:center;
-    background:#61045F ;
-    gap:10px; 
-   
-
-    input {
-        width:100%;
-        border:none;
-        border-radius:20px;
-        padding:10px;
-    }
 }
 
 .quizes_div {
@@ -78,8 +27,16 @@ body {
     border-radius:5px;
 }
 
+.main {
+    display:grid;
+    grid-template-columns:30% 70%;
+    justify-items:space-between;
+}
+
 .quiz_list {
     width:300px;
+    height:$body_h;
+    background:#00ff00;
 }
 
 .create_quiz {
@@ -87,8 +44,7 @@ body {
     gap:10px;
 }
 
-$quizW: 520px;
-.create_quiz .category_select {
+/*.create_quiz .category_select {
     width:$quizW;
     height:30px;
     background:#fff;
@@ -101,7 +57,7 @@ $quizW: 520px;
 .create_quiz > *{
     color:#3C4568;
     text-indent:15px;
-    font:14px "Estandar";
+    font:14px;
     font-weight:700;
 }
 
@@ -124,16 +80,69 @@ $quizW: 520px;
     background:#eee;
 }
 
-.create_quiz input {
-    width: $quizW;
-    height:30px;
-    border:none;
-    border-radius:5px;
-    text-indent:15px;
-}
+// .create_quiz input {
+//     width: $quizW;
+//     height:30px;
+//     border:none;
+//     border-radius:5px;
+//     text-indent:15px;
+// }*/
 
 .quiz_question {
     width:$quizW;
     background:#242B4C;
     border-radius:5px;
+    display:grid;
+    grid-template-rows:10% 40% 40% 10%;
+    justify-items:center;
+
+    &> div {
+        display:grid;
+        width:$quizW;
+
+        &:first-child {
+            grid-template-columns:33% 33% 33%;
+            background:red;
+        }
+
+        &:nth-child(2) {
+            textarea {
+                width:80%;
+                height:80%;
+                justify-self:center;
+                align-self:center;
+                resize:none;
+                background:#242B4C;
+                color:#fff;
+                padding:15px;
+                border:none;
+            }
+        }
+
+        &:nth-child(3) {
+            grid-template-columns:50% 50%;
+            
+            input {
+                justify-self:center;
+                align-self:center;
+                width:200px;
+                height:40px;
+                background:#202F53;
+                color:#fff;
+                border:3px solid #0E476D;
+                text-indent:15px;
+            }
+        }
+
+        &:nth-child(4) {
+            width:160px;
+            height:40px;
+            padding-left:30px;
+            align-items:center;
+            background:#141C2E;
+            color:#fff;
+            border-radius:50px;
+            font-weight:700;
+        }
+    }
 }

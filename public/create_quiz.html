@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/nav.css">
     <title>Create Quiz</title>
 </head>
 <body>
@@ -19,34 +20,61 @@
             <li><a href="">Register</a></li>
         </ul>
     </div>
-    <div class="quiz_list">
-        <div>
-            <h3>All Quiz</h3>
+    <div class="main">
+        <div class="quiz_list">
+            <div>
+                <h3>All Quiz</h3>
+            </div>
         </div>
-    </div>
-    <div class="create_quiz">
-        <ul class="category_select">
-            <li>Categories</li>
-            <ul>
-                <li>History</li>
-                <li>Education</li>
-                <li>Trivia</li>
+        <div class="create_quiz">
+            <ul class="category_select">
+                <li>Categories</li>
+                <ul>
+                    <li>History</li>
+                    <li>Education</li>
+                    <li>Trivia</li>
+                </ul>
             </ul>
-        </ul>
-        <input type="text" placeholder="Title Name">
-        <div class="quiz_question">
-            <select name="" value="" id="">
-                <option>00:10s</option>
-                <option>00:15s</option>
-                <option>00:30s</option>
-            </select>
-            <textarea cols="30" rows="10"></textarea>
-            <select name="" value="" id="">
-                <option>10 Points</option>
-                <option>20 Points</option>
-                <option>30 Points</option>
-            </select>
-            
+            <input type="text" placeholder="Title Name">
+            <div class="quiz_question">
+                <div>
+                    <select name="" value="" id="">
+                        <option>00:10s</option>
+                        <option>00:15s</option>
+                        <option>00:30s</option>
+                    </select>
+                    <input type="file" value="Upload Images">
+                    <select name="" value="" id="">
+                        <option>10 Points</option>
+                        <option>20 Points</option>
+                        <option>30 Points</option>
+                    </select>
+                </div>
+                <div>
+                    <textarea cols="30" placeholder="Write your question here..." rows="10"></textarea>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <input type="text" placeholder="Answer A">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Answer B">
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input type="text" placeholder="Answer C">
+                        </div>
+                        <div>
+                            <input type="text" placeholder="Answer D">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="delete_btn"><p>Delete</p></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
