@@ -43,7 +43,12 @@
                         <option>00:15s</option>
                         <option>00:30s</option>
                     </select>
-                    <input type="file" value="Upload Images">
+                    <div>
+                        <input type="file" id="quiz_pic" value="Upload Images">
+                        <div>
+                            <label for="quiz_pic"><p>Upload Image</p></label>
+                        </div>
+                    </div>
                     <select name="" value="" id="">
                         <option>10 Points</option>
                         <option>20 Points</option>
@@ -57,17 +62,21 @@
                     <div>
                         <div>
                             <input type="text" placeholder="Answer A">
+                            <input type="radio" name="correctAnswer">
                         </div>
                         <div>
                             <input type="text" placeholder="Answer B">
+                            <input type="radio" name="correctAnswer">
                         </div>
                     </div>
                     <div>
                         <div>
                             <input type="text" placeholder="Answer C">
+                            <input type="radio" name="correctAnswer">
                         </div>
                         <div>
                             <input type="text" placeholder="Answer D">
+                            <input type="radio" name="correctAnswer">
                         </div>
                     </div>
                 </div>
@@ -75,6 +84,7 @@
                     <div class="delete_btn"><p>Delete</p></div>
                 </div>
             </div>
+            <div class="add_question"><p>saddsaasd</p></div>
         </div>
     </div>
 </body>
