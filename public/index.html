@@ -4,36 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/main.css">
     <title>Home</title>
 </head>
 <body>
     <div class="header">
-        <ul class="navbar">
+        <ul class="nav">
             <li><a href="#">Play</a></li>
             <li><a href="#">Quizes</a></li>
             <li><a href="#">Plans</a></li>
         </ul>
-        <ul>
+        <ul class="nav_login">
             <li><a href="/login">Login</a></li>
             <li><a href="">Register</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
+    </div>
+    <form class="register_form">
+        <input type="text" name="fname" placeholder="First name">
+        <input type="text" name="lname" placeholder="Last name">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="pass" placeholder="Password">
+        <input type="email" name="email" placeholder="Email">
+       <!-- <input class="pesho" type="submit" value="Login">-->
+        <div class="pesho"> Register</div>
+    </form>
+    <div class="main_body">
+        <div class="categ_div">
+            <h2>Categories</h2>
+        </div>
+        <div class="quizes_div">
+            <div class="quiz">
+                <img src="" alt="">
 
-        <form id="test">
-            <input type="text" name="fname" placeholder="First name">
-            <input type="text" name="lname" placeholder="Last name">
-            <input type="text" name="username" placeholder="Username">
-            <input type="password" name="pass" placeholder="Password">
-            <input type="email" name="email" placeholder="Email">
-           <!-- <input class="pesho" type="submit" value="Login">-->
-            <div class="pesho"> Register</div>
-        </form>
+            </div>
+        </div>
+        <div class="create_quiz">
+            <input type="text" name="quiz_title" placeholder="Title">
+            <input type="text" name="quiz_title" placeholder="Title">
+            <input type="text" name="quiz_title" placeholder="Title">
+            <input type="text" name="quiz_title" placeholder="Title">
+            <input type="text" name="quiz_title" placeholder="Title">
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script>
         $(".pesho").click(() => {
-            var test = $("#test").serializeArray();
+            var test = $(".register_form").serializeArray();
             console.log(test);
             console.log(test[3].value);
             axios.post('http://127.0.0.1:5000/register/add',

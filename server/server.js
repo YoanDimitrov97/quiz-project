@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000;
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 //connect to db
-mongoose.connect('mongodb+srv://quizRoot:quizRoot@quiz-cluster-dqqzj.mongodb.net/Quiz-Project', {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology: true});
+mongoose.connect('mongodb+srv://quizRoot:quizRoot@quiz-cluster-dqqzj.mongodb.net/Quiz-Project?retryWrites=true&w=majority', {useNewUrlParser:true, useCreateIndex: true, useUnifiedTopology: true});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection establied successfully!");
