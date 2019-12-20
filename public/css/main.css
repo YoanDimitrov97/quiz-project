@@ -11,8 +11,7 @@
   font-family: "Estandar"; }
 
 body {
-  background: transparent linear-gradient(1deg, #1C011B 0%, #5D083C 100%) 0% 0% no-repeat padding-box;
-  height: 100vh; }
+  background: transparent linear-gradient(1deg, #1C011B 0%, #5D083C 100%) 0% 0% no-repeat padding-box; }
 
 .quizes_div {
   width: 260px;
@@ -20,7 +19,8 @@ body {
   border-radius: 5px; }
 
 .main {
-  width: 60%;
+  width: 85%;
+  height: 100%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 30% 70%;
@@ -32,19 +32,19 @@ body {
     background: #242B4C; }
   .main .create_quiz {
     display: grid;
-    grid-template-rows: 5% 5% 90%; }
+    grid-template-rows: 4% 4% 88% 4%; }
     .main .create_quiz * {
       color: #3C4568;
       font: 14px;
       font-weight: 700; }
     .main .create_quiz input {
-      width: 600px;
+      width: 480px;
       height: 30px;
       border: none;
       border-radius: 5px;
       text-indent: 15px; }
     .main .create_quiz .category_select {
-      width: 600px;
+      width: 480px;
       height: 30px;
       background: #fff;
       position: relative;
@@ -65,16 +65,17 @@ body {
           .main .create_quiz .category_select ul li:hover {
             background: #eee; }
     .main .create_quiz .quiz_question {
-      width: 600px;
-      height: 320px;
+      width: 480px;
+      height: 240px;
       background: #242B4C;
       border-radius: 5px;
       display: grid;
-      grid-template-rows: 10% 40% 40% 10%;
-      justify-items: center; }
+      grid-template-rows: 10% 35% 40% 15%;
+      justify-items: center;
+      margin-bottom: 15px; }
       .main .create_quiz .quiz_question > div {
         display: grid;
-        width: 600px; }
+        width: 480px; }
         .main .create_quiz .quiz_question > div:first-child {
           grid-template-columns: 33% 33% 33%; }
           .main .create_quiz .quiz_question > div:first-child div {
@@ -144,12 +145,15 @@ body {
           background: #141C2E;
           border-radius: 50px;
           font-weight: 700;
-          cursor: pointer;
-          margin-top: 10px; }
+          cursor: pointer; }
           .main .create_quiz .quiz_question > div:nth-child(4) p {
             color: #fff; }
     .main .create_quiz .add_question {
-      width: 600px;
+      width: 480px;
       height: 40px;
       background: #fff;
-      cursor: pointer; }
+      cursor: pointer;
+      border-radius: 5px;
+      display: grid;
+      align-items: center;
+      justify-content: center; }
