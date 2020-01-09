@@ -1,19 +1,17 @@
 <template>
 <div class="wrapper">
     <div class="create_quiz">
-        <ul class="category_select">
-            <li>Categories</li>
-            <ul>
-                <li>History</li>
-                <li>Education</li>
-                <li>Trivia</li>
-            </ul>
-        </ul>
-        <input type="text" placeholder="Title Name" class="quiz_title">
+        <select v-model="currCateg" class="category_select">
+            <option selected>History</option>
+            <option>Education</option>
+            <option>Trivia</option>
+        </select>
+        <input type="text" placeholder="Title Name" class="quiz_title" v-model="quizTitle">
         <div class="questions" ref="container">
             <NewQuizQuestion/>
         </div>
-        <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question {{counter}}</p></div>
+        <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question</p></div>
+        <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p></div>
     </div>
 </div>
 </template>
@@ -21,6 +19,7 @@
 <script>
 import NewQuizQuestion from './CreateQuiz/NewQuizQuestion.vue'
 import Vue from 'vue'
+import Axios from 'axios'
 
 export default {
     name:"CreateQuiz",
@@ -29,7 +28,10 @@ export default {
     },
     data() {
         return {
-            counter:1
+            currCateg:"",//default
+            quizTitle:"",
+            counter:1,
+            questionTitle: {}
         }
     },
     methods: {
@@ -38,6 +40,19 @@ export default {
         var instance = new ComponentClass()
         instance.$mount() // pass nothing
         this.$refs.container.appendChild(instance.$el)
+    },
+    changeCategory: function() {
+        console.log("tr");
+    },
+    saveQuiz: function() {
+        console.log(this.questionTitle)
+        Axios.get('http://127.0.0.1:5000/register')
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
   }
 }
@@ -123,6 +138,12 @@ export default {
                 display:grid;
                 align-items:center;
                 text-indent:15px;
+                cursor:pointer;
+            }
+
+            .save_quiz {
+                width:160px;
+                background:lime;
                 cursor:pointer;
             }
         }

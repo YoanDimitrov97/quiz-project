@@ -12,7 +12,7 @@ export default new Router({
             component: Nav
         },
         {
-            path:'/create_quiz',
+            path:'/create_quiz.html',
             component:CreateQuiz
         }
     ]

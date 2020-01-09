@@ -20,7 +20,7 @@
             <img src="img/error.png" alt="">
         </div>
         <div class="question_body">
-            <textarea cols="30" placeholder="Write your question here..." rows="10"></textarea>
+            <textarea v-model="questionTitle" cols="30" placeholder="Write your question here..." rows="10"></textarea>
         </div>
         <div class="question_footer">
             <div>
@@ -66,6 +66,7 @@ $question_h:240px;
     background:#5D083C;
     border-radius:5px;
     box-shadow: 0px 0px 12px #1C011B;
+    margin-bottom:20px;
 
     .question_header {
         display:grid;

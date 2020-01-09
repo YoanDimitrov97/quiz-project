@@ -28,10 +28,12 @@ export default {
   list-style:none;
   text-decoration:none;
   font-family:"Estandar";
+  box-sizing:border-box;
 }
 
 #app {
-  height:100vh;
+  min-height:100vh;
+  height:100%;
   background: transparent linear-gradient(1deg, #1C011B 0%, #5D083C 100%) 0% 0% no-repeat padding-box;
 }
 </style>

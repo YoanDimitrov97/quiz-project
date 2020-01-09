@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm run serve --prefix quiz_frontend",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "sass": "node-sass -w public/scss -o public/css"
   },
   "repository": {
@@ -19,6 +21,7 @@
   "dependencies": {
     "@vue/cli": "^4.1.2",
     "bcryptjs": "^2.4.3",
+    "concurrently": "^5.0.2",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.7.12"
