@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz_question">
+    <div class="quiz_question" v-on:change="getQuestion">
         <div class="question_header">
             <select name="" value="" id="">
                 <option>00:10s</option>
@@ -20,7 +20,7 @@
             <img src="img/error.png" alt="">
         </div>
         <div class="question_body">
-            <textarea v-model="questionTitle" cols="30" placeholder="Write your question here..." rows="10"></textarea>
+            <textarea v-model="questionData.title" cols="30" placeholder="Write your question here..." rows="10"></textarea>
         </div>
         <div class="question_footer">
             <div>
@@ -49,8 +49,17 @@
 <script>
 export default {
     name:"NewQuizQuestion",
-    props: {
-        numOfQuestions:Number
+    data() {
+        return {
+            questionData: {
+                title:""
+            }
+        }
+    },
+    methods: {
+        getQuestion: function() {
+            this.$emit('getQuestion', this.questionData)
+        }        
     }
 }
 </script>

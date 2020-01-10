@@ -8,7 +8,7 @@
         </select>
         <input type="text" placeholder="Title Name" class="quiz_title" v-model="quizTitle">
         <div class="questions" ref="container">
-            <NewQuizQuestion/>
+            <NewQuizQuestion v-on:getQuestion="saveQuiz" />
         </div>
         <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question</p></div>
         <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p></div>
@@ -31,7 +31,9 @@ export default {
             currCateg:"",//default
             quizTitle:"",
             counter:1,
-            questionTitle: {}
+            question: {
+                title:""
+            }
         }
     },
     methods: {
@@ -44,15 +46,15 @@ export default {
     changeCategory: function() {
         console.log("tr");
     },
-    saveQuiz: function() {
-        console.log(this.questionTitle)
-        Axios.get('http://127.0.0.1:5000/register')
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    saveQuiz: function(emp) {
+        console.log(emp.title)
+        // Axios.get('http://127.0.0.1:5000/register')
+        // .then(function (response) {
+        //     console.log(response);
+        // })
+        // .catch(function (error) {
+        //     console.log(error);
+        // });
     }
   }
 }
