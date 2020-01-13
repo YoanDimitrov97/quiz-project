@@ -1,8 +1,8 @@
 <template>
-    <div class="quiz_question" v-on:change="getQuestion">
+    <div class="quiz_question" v-on:change=saveChanges v-bind:id=id>
         <div class="question_header">
-            <select name="" value="" id="">
-                <option>00:10s</option>
+            <select>
+                <option selected>00:10s</option>
                 <option>00:15s</option>
                 <option>00:30s</option>
             </select>
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <select name="" value="" id="">
-                <option>10 Points</option>
+                <option selected>10 Points</option>
                 <option>20 Points</option>
                 <option>30 Points</option>
             </select>
@@ -47,6 +47,8 @@
     </div>
 </template>
 <script>
+import {bus} from "../../main"
+import { setTimeout } from 'timers'
 export default {
     name:"NewQuizQuestion",
     data() {
@@ -56,11 +58,12 @@ export default {
             }
         }
     },
+    props: ['id'],
     methods: {
-        getQuestion: function() {
-            this.$emit('getQuestion', this.questionData)
-        }        
-    }
+        saveChanges() {
+            console.log("Saving...")
+        }     
+    },
 }
 </script>
 <style lang="scss">
