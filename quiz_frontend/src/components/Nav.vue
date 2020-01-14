@@ -1,27 +1,70 @@
 <template>
-    <div class="header">
-        <ul class="nav">
-            <li><a href="#">Play</a></li>
-            <li><a href="#">Quizes</a></li>
-            <li><a href="#">Plans</a></li>
-        </ul>
-        <ul class="nav_login">
-            <div v-if="isLogged == true" class="login_section">
-                <li><a href="">Login</a></li>
-                <li><a href="">Register</a></li>
-            </div>
-            <div v-else class="profile_section">
-                <p>Welcome, pesho!</p>
-            </div>
-        </ul>
+    <div>
+        <div class="header">
+            <ul class="nav">
+                <li><a href="#">Play</a></li>
+                <li><a href="#">Quizes</a></li>
+                <li><a href="#">Plans</a></li>
+            </ul>
+            <ul class="nav_login" v-show="showLogin">
+                <div v-if="!isLoggedIn" class="login_section">
+                    <li><a v-on:click.prevent="signIn" href="">Login</a></li>
+                    <li><a href="">Sign Up</a></li>
+                </div>
+                <div v-else class="profile_section">
+                    <p>Welcome, {{ userName }}</p>
+                </div>
+            </ul>
+        </div>
+        <Login v-if="isClicked" @hideLogin="hideLogin" v-bind:isClicked="isClicked" />
+        <ProfileNav @logout="logout"/>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+import Login from './Index/Login.vue';
+import ProfileNav from './Index/ProfileNav.vue';
+
 export default {
     name: 'Nav',
-    props: {
-        isLogged: Boolean
+    components: {
+        Login,
+        ProfileNav
+    },
+    data () {
+        return {
+            showLogin: false,
+            isClicked: false,
+            isLoggedIn: false,
+            userName: null,
+        }
+    },
+    beforeCreate() {
+        axios.get(process.env.VUE_APP_URL)
+            .then(res => {
+                this.showLogin = true;
+                this.isLoggedIn = res.data.isLoggedIn;
+                this.userName = res.data.userName;
+            }).catch(err => { console.log(err) });
+    },
+    methods: {
+        signIn() {
+            if(this.isClicked == false){
+                this.isClicked = true;
+            }else {
+                this.isClicked = false;
+            }
+            
+        },
+        hideLogin(value) {
+            this.isClicked = false;
+            this.isLoggedIn = true;
+            this.userName = value.username;
+        },
+        logout(value) {
+            this.isLoggedIn = value;
+        }
     }
 }
 </script>
@@ -63,10 +106,19 @@ export default {
                 align-content:center;
                 justify-content:center;
 
+                li:first-child {
+                    justify-self: center;
+                }
+                li:nth-child(2){
+                    a {
+                        background: #0879f2;
+                        padding: 7px 15px;
+                        border-radius: 5px;
+                    }
+                }
                 li {
                     a {
                         color:$nav_color;
-                        font-weight:700;
                     }
                 }
             }

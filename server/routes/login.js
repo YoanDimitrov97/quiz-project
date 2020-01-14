@@ -12,7 +12,7 @@ router.route('/').post((req, res) => {
                 if(result){
                     req.session.userId = data._id;
                     req.session.username = data.username;
-                    res.redirect('/');                  
+                    res.json(req.session);                 
                 }else {
                     console.log('Wrong email or pass !');
                 }

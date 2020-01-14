@@ -6,7 +6,8 @@ router.route('/').get((req, res) => {
     Session.deleteOne({ _id: sessionId}, (err) => {
         if(!err){
             req.session.destroy();
-            res.redirect('/login');
+            const sessDestroy = true;
+            res.json(sessDestroy);
         }else {
             console.log("Something wrong !");
         }

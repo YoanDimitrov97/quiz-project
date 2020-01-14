@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const session = require('express-session');
 const cors = require("cors");
 const MongoStore = require('connect-mongo')(session);
-const sessionCheck = require('../middleware/sessionCheck');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -16,7 +15,7 @@ connection.once('open', () => {
     console.log("MongoDB database connection establied successfully!");
 });
 
-app.use(cors());
+app.use(cors({credentials: true, origin: true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Sessions
@@ -26,7 +25,9 @@ app.use(session({
     saveUninitialized: true,
     store: new MongoStore({ mongooseConnection: connection }),
     cookie: {
-        maxAge: TWO_HOURS,
+        httpOnly: true,
+        secure: false,
+        maxAge: 3600000,
     }
 }));
 
