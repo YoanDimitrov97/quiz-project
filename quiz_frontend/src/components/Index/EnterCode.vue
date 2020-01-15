@@ -12,7 +12,7 @@ export default {
 </script>
 <style lang="scss">
 .box {
-    width:360px;
+    width:320px;
     height:200px;
     background:#FFB45D;
     border-radius:5px;

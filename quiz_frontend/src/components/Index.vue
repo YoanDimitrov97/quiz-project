@@ -40,6 +40,8 @@ export default {
     display:grid;
     grid-template-columns:30% 40% 30%;
     justify-items:center;
+    position:absolute;
+    z-index:1;
 
     .middle {
         overflow:auto;

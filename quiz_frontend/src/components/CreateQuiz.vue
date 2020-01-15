@@ -36,6 +36,7 @@ export default {
             currCateg:"",//default
             quizTitle:"",
             questionNum:1,   
+            userId: ""
         }
     },
     methods: {
@@ -51,6 +52,7 @@ export default {
             title: this.quizTitle,
             numOfQuestions: this.questionNum,
             category: this.currCateg,
+            createdBy: this.userId
         })
         .then(function (response) {
             console.log(response);
@@ -60,9 +62,12 @@ export default {
         });
     },
   },
-  created() {
-
-  }
+   created() {
+       bus.$on("userId", (data) => {
+           this.userId = data
+           console.log(this.userId)
+       })
+   }
 }
 </script>
 <style lang="scss">

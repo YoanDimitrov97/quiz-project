@@ -1,10 +1,12 @@
 const router = require('express').Router();
+const path = require('path');
 const Quiz = require("../models/quiz.model");
+const sessionCheck = require('../../middleware/sessionCheck');
 
-router.route('/').get((req, res) => {
-    Quiz.find()
-    .then(quiz => res.json(quiz))
-    .catch(err => res.status(400).json('Error' + err));
+router.route('/').get(sessionCheck, (req, res) => {
+    // Quiz.find()
+    // .then(quiz => console.log(quiz))
+    // .catch(err => res.status(400).json('Error' + err));
 })
 
 router.route('/quiz/create').post((req,res) => {
@@ -14,7 +16,7 @@ router.route('/quiz/create').post((req,res) => {
     const category = req.body.category;
     const rating = 0;
     const createdOn = new Date();
-    const createdBy = "5dea39f9bfd33a330cd9692b";
+    const createdBy = req.body.createdBy;
 
     const newQuiz = new Quiz({
         title,
@@ -26,14 +28,21 @@ router.route('/quiz/create').post((req,res) => {
         createdBy
     });
 
-    Quiz.find({createdBy: "5dea39f9bfd33a330cd9692b"}, (err, docs) => {
+    Quiz.find({createdBy: createdBy})
+    .then(docs => {
         if(!docs.length){
             newQuiz.save()
             .then(() => res.json("Quiz Created Successfully"))
             .catch((err) => res.status(400).json(`Err ${err}`));
-        } 
+        } else {
+            res.json(`Quiz already exists!`);
+            Quiz.findOneAndUpdate({createdBy: createdBy}, newQuiz, {
+                new:true
+            })
+            .then(() => res.json("Quiz Updated!"))
+            .catch((err) => res.status(400).json(`Err ${err}`));
+        }
     })
-    .then(docs => res.json("Quiz already exists"))
     .catch(err => res.status(400).json('Error' + err));
 })
 
