@@ -1,48 +1,70 @@
 <template>
-<div class="wrapper">
-    <div class="create_quiz">
-        <ul class="category_select">
-            <li>Categories</li>
-            <ul>
-                <li>History</li>
-                <li>Education</li>
-                <li>Trivia</li>
-            </ul>
-        </ul>
-        <input type="text" placeholder="Title Name" class="quiz_title">
-        <div class="questions" ref="container">
-            <NewQuizQuestion/>
+<div>
+    <Nav /> 
+    <div class="wrapper">
+        <div class="create_quiz" v-on:change="saveQuiz">
+            <select v-model="currCateg" class="category_select">
+                <option v-bind:key="option" v-for="option in selectCategories">{{option}}</option>
+            </select>
+            <input type="text" placeholder="Quiz Title" class="quiz_title" v-model="quizTitle">
+            <div class="questions" ref="container">
+                <NewQuizQuestion :id=questionNum v-bind:key="questionNum" v-for="questionNum in questionNum" />
+            </div>
+            <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question</p></div>
+            <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p></div>
         </div>
-        <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question {{counter}}</p></div>
     </div>
 </div>
+
 </template>
 
 <script>
+import Nav from "./Nav.vue"
 import NewQuizQuestion from './CreateQuiz/NewQuizQuestion.vue'
 import Vue from 'vue'
+import Axios from 'axios'
+import {bus} from '../main.js'
 
 export default {
     name:"CreateQuiz",
     components: {
-        NewQuizQuestion
+        Nav, NewQuizQuestion
     },
     data() {
         return {
-            counter:1
+            selectCategories: ["History", "Education", "Trivia", "Movies"],
+            currCateg:"",//default
+            quizTitle:"",
+            questionNum:1,   
         }
     },
     methods: {
     addQuestion: function () {
-        var ComponentClass = Vue.extend(NewQuizQuestion)
-        var instance = new ComponentClass()
-        instance.$mount() // pass nothing
-        this.$refs.container.appendChild(instance.$el)
-    }
+        this.questionNum += 1
+        console.log(this.counter)
+    },
+    //Saves only Category, Title and Number of Questions... the actual questions are saved in NewQuizQuestions.vue 
+    saveQuiz: function() {
+        console.log(`Saving... Category: ${this.currCateg} Title: ${this.quizTitle} Num: ${this.questionNum}`)
+        // this.$emit("getQuestions")
+        Axios.post('http://127.0.0.1:5000/quiz/create', {
+            title: this.quizTitle,
+            numOfQuestions: this.questionNum,
+            category: this.currCateg,
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    },
+  },
+  created() {
+
   }
 }
 </script>
-
 <style lang="scss">
     $categ_h:30px; //height of category and title of quiz
     $categ_w: 480px;
@@ -123,6 +145,12 @@ export default {
                 display:grid;
                 align-items:center;
                 text-indent:15px;
+                cursor:pointer;
+            }
+
+            .save_quiz {
+                width:160px;
+                background:lime;
                 cursor:pointer;
             }
         }

@@ -1,18 +1,13 @@
 <!-- CREATE QUIZ -->
 <template>
   <div id="app">
-    <Nav />
     <router-view />
   </div>
 </template>
 
 <script>
-import Nav from "./components/Nav.vue"
 export default {
   name: 'app',
-  components: {
-    Nav
-  }
 }
 </script>
 
@@ -28,10 +23,16 @@ export default {
   list-style:none;
   text-decoration:none;
   font-family:"Estandar";
+  box-sizing:border-box;
+}
+
+body {
+  overflow:hidden;
 }
 
 #app {
-  height:100vh;
+  min-height:100vh;
+  height:100%;
   background: transparent linear-gradient(1deg, #1C011B 0%, #5D083C 100%) 0% 0% no-repeat padding-box;
 }
 </style>

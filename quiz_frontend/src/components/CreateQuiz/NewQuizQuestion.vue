@@ -1,8 +1,8 @@
 <template>
-    <div class="quiz_question">
+    <div class="quiz_question" v-on:change=saveChanges v-bind:id=id>
         <div class="question_header">
-            <select name="" value="" id="">
-                <option>00:10s</option>
+            <select>
+                <option selected>00:10s</option>
                 <option>00:15s</option>
                 <option>00:30s</option>
             </select>
@@ -13,14 +13,14 @@
                 </div>
             </div>
             <select name="" value="" id="">
-                <option>10 Points</option>
+                <option selected>10 Points</option>
                 <option>20 Points</option>
                 <option>30 Points</option>
             </select>
             <img src="img/error.png" alt="">
         </div>
         <div class="question_body">
-            <textarea cols="30" placeholder="Write your question here..." rows="10"></textarea>
+            <textarea v-model="questionData.title" cols="30" placeholder="Write your question here..." rows="10"></textarea>
         </div>
         <div class="question_footer">
             <div>
@@ -47,11 +47,23 @@
     </div>
 </template>
 <script>
+import {bus} from "../../main"
+import { setTimeout } from 'timers'
 export default {
     name:"NewQuizQuestion",
-    props: {
-        numOfQuestions:Number
-    }
+    data() {
+        return {
+            questionData: {
+                title:""
+            }
+        }
+    },
+    props: ['id'],
+    methods: {
+        saveChanges() {
+            console.log("Saving...")
+        }     
+    },
 }
 </script>
 <style lang="scss">
@@ -66,6 +78,7 @@ $question_h:240px;
     background:#5D083C;
     border-radius:5px;
     box-shadow: 0px 0px 12px #1C011B;
+    margin-bottom:20px;
 
     .question_header {
         display:grid;

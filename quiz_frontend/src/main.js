@@ -6,6 +6,8 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 axios.defaults.withCredentials = true; // This remember which session is on User through axios !!
 
+export const bus = new Vue();
+
 new Vue({
   router,
   render: h => h(App),
