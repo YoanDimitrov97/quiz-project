@@ -13,11 +13,12 @@
                 </div>
                 <div v-else class="profile_section">
                     <p>Welcome, {{ userName }}</p>
+                    <img v-bind:class="[rotateArrow ? 'rotateArrowUp' : 'rotateArrowDown']" v-on:click="openProfileNav" src="~@/assets/images/metro-chevron-thin-down.svg" alt="">
                 </div>
             </ul>
         </div>
         <Login v-if="isClicked" @hideLogin="hideLogin" v-bind:isClicked="isClicked" />
-        <ProfileNav @logout="logout"/>
+        <ProfileNav v-if="profileNavClicked" @logout="logout"/>
     </div>
 </template>
 
@@ -34,9 +35,11 @@ export default {
     },
     data () {
         return {
+            profileNavClicked: false,
             showLogin: false,
             isClicked: false,
             isLoggedIn: false,
+            rotateArrow: true,
             userName: null,
         }
     },
@@ -57,14 +60,25 @@ export default {
             }
             
         },
+        openProfileNav() {
+            if(this.profileNavClicked == false){
+                this.profileNavClicked = true;
+                this.rotateArrow = false;
+            } else {
+                this.profileNavClicked = false;
+                this.rotateArrow = true;
+            }
+            
+        },
         hideLogin(value) {
             this.isClicked = false;
             this.isLoggedIn = true;
             this.userName = value.username;
         },
         logout(value) {
+            this.profileNavClicked = false;
             this.isLoggedIn = value;
-        }
+        },
     }
 }
 </script>
@@ -123,14 +137,32 @@ export default {
                 }
             }
             
-           .profile_section {
-               color:$nav_color;
-               height:100%;
-               display:grid;
-               align-content:center;
-               justify-content:center;
-               font-size:14px;
-           } 
+            .profile_section {
+                color:$nav_color;
+                height:100%;
+                display:grid;
+                align-content:center;
+                justify-content:center;
+                font-size:14px;
+                grid-template-columns: 1fr 1fr;
+                p {
+                    justify-self: end;
+                    align-self: center;
+                    margin-right: 5px;
+                }
+                img {
+                    width: 20px;
+                    justify-self: start;
+                    align-self: center;
+                    margin-left: 5px;
+                }
+            } 
         }
+    }
+    .rotateArrowDown {
+        transform: rotate(0deg);
+    }
+    .rotateArrowUp {
+        transform: rotate(180deg);
     }
 </style>
