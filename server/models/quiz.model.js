@@ -6,7 +6,7 @@ const quizSchema = new Schema({
     title:{type:String},
     numOfQuestions:{type:Number},
     questions:{type:Array},
-    category: {type: String, required:true},
+    category: {type: String},
     rating:{type:Number},
     createdOn:{type:Date},
     createdBy:{type:mongoose.Types.ObjectId, ref: 'User'},

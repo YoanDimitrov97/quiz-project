@@ -1,20 +1,25 @@
 <template>
-<div class="wrapper">
-    <div class="create_quiz" v-on:change="saveQuiz">
-        <select v-model="currCateg" class="category_select">
-            <option v-bind:key="option" v-for="option in selectCategories">{{option}}</option>
-        </select>
-        <input type="text" placeholder="Quiz Title" class="quiz_title" v-model="quizTitle">
-        <div class="questions" ref="container">
-            <NewQuizQuestion :id=questionNum v-bind:key="questionNum" v-for="questionNum in questionNum" />
+<div>
+    <Nav /> 
+    <div class="wrapper">
+        <div class="create_quiz" v-on:change="saveQuiz">
+            <select v-model="currCateg" class="category_select">
+                <option v-bind:key="option" v-for="option in selectCategories">{{option}}</option>
+            </select>
+            <input type="text" placeholder="Quiz Title" class="quiz_title" v-model="quizTitle">
+            <div class="questions" ref="container">
+                <NewQuizQuestion :id=questionNum v-bind:key="questionNum" v-for="questionNum in questionNum" />
+            </div>
+            <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question</p></div>
+            <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p></div>
         </div>
-        <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question</p></div>
-        <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p></div>
     </div>
 </div>
+
 </template>
 
 <script>
+import Nav from "./Nav.vue"
 import NewQuizQuestion from './CreateQuiz/NewQuizQuestion.vue'
 import Vue from 'vue'
 import Axios from 'axios'
@@ -23,7 +28,7 @@ import {bus} from '../main.js'
 export default {
     name:"CreateQuiz",
     components: {
-        NewQuizQuestion
+        Nav, NewQuizQuestion
     },
     data() {
         return {
@@ -45,7 +50,7 @@ export default {
         Axios.post('http://127.0.0.1:5000/quiz/create', {
             title: this.quizTitle,
             numOfQuestions: this.questionNum,
-            category: this.currCateg
+            category: this.currCateg,
         })
         .then(function (response) {
             console.log(response);

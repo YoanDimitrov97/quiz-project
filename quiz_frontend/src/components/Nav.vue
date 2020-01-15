@@ -26,7 +26,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
     $nav_color:#E8D0DF;
     $login_size:240px;//size of the Login/Register section
     .header {

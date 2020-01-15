@@ -1,18 +1,13 @@
 <!-- CREATE QUIZ -->
 <template>
   <div id="app">
-    <Nav />
     <router-view />
   </div>
 </template>
 
 <script>
-import Nav from "./components/Nav.vue"
 export default {
   name: 'app',
-  components: {
-    Nav
-  }
 }
 </script>
 
@@ -29,6 +24,10 @@ export default {
   text-decoration:none;
   font-family:"Estandar";
   box-sizing:border-box;
+}
+
+body {
+  overflow:hidden;
 }
 
 #app {
