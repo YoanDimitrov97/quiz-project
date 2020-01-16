@@ -12,8 +12,8 @@ export default {
 </script>
 <style lang="scss">
 .box {
-    width:360px;
-    height:200px;
+    width:250px;
+    height:260px;
     background:#FFB45D;
     border-radius:5px;
     display:grid;
@@ -27,7 +27,7 @@ export default {
     input {
         border:none;
         border-radius:25px;
-        width:240px;
+        width:200px;
         height:40px;
         text-align:center;
     }

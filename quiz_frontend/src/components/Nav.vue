@@ -2,9 +2,9 @@
     <div>
         <div class="header">
             <ul class="nav">
-                <li><a href="#">Play</a></li>
-                <li><a href="#">Quizes</a></li>
-                <li><a href="#">Plans</a></li>
+                <li><a href="">Play</a></li>
+                <li><a href="">Quizes</a></li>
+                <li><a href="">Plans</a></li>
             </ul>
             <ul class="nav_login" v-show="showLogin">
                 <div v-if="!isLoggedIn" class="login_section">
@@ -76,6 +76,7 @@ export default {
             this.userName = value.username;
         },
         logout(value) {
+            this.rotateArrow = true;
             this.profileNavClicked = false;
             this.isLoggedIn = value;
         },
