@@ -5,7 +5,7 @@
                 <li><a href="#">Play</a></li>
                 <li><a href="#">Quizes</a></li>
                 <li><a href="#">Plans</a></li>
-                <li><a href="create_quiz.html">Create a Quiz</a></li>
+                <li><a href="my_quiz">Create a Quiz</a></li>
             </ul>
             <ul class="nav_login" v-show="showLogin">
                 <div v-if="!isLoggedIn" class="login_section">

@@ -9,6 +9,12 @@ router.route('/').get(sessionCheck, (req, res) => {
     // .catch(err => res.status(400).json('Error' + err));
 })
 
+router.route('/quiz').get((req,res) => {
+    Quiz.find({createdBy:req.body.id})
+    .then(doc => res.json(doc))
+    .catch(err => res.status(400).json('Error' + err));
+})
+
 router.route('/quiz/create').post((req,res) => {
     const title = req.body.title;
     const numOfQuestions = req.body.numOfQuestions;
@@ -35,10 +41,15 @@ router.route('/quiz/create').post((req,res) => {
             .then(() => res.json("Quiz Created Successfully"))
             .catch((err) => res.status(400).json(`Err ${err}`));
         } else {
-            res.json(`Quiz already exists!`);
-            Quiz.findOneAndUpdate({createdBy: createdBy}, newQuiz, {
-                new:true
-            })
+            Quiz.updateOne({createdBy: createdBy}, {
+                title: title,
+                numOfQuestions:numOfQuestions,
+                questions:questions,
+                category:category,
+                rating:rating,
+                createdOn:createdOn,
+                createdBy:createdBy,
+            }, {new: true})
             .then(() => res.json("Quiz Updated!"))
             .catch((err) => res.status(400).json(`Err ${err}`));
         }

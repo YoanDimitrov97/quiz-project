@@ -23,7 +23,7 @@
 export default {
     name:"QuizBox",
     props: {
-        data: []
+        data: {}
     },
 }
 </script>
