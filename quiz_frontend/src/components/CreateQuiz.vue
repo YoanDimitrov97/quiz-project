@@ -33,11 +33,12 @@ export default {
     data() {
         return {
             quizId: this.$route.params.id,
-            loadData:[],
+            loadData:{},//holds get data of current quiz
             selectCategories: ["History", "Education", "Trivia", "Movies"],
             currCateg:"",//default
             quizTitle:"",
             questionNum:1,   
+            questionData:{},//stores child components question data
             userId: ""
         }
     },
@@ -48,6 +49,10 @@ export default {
     },
     //Saves only Category, Title and Number of Questions... the actual questions are saved in NewQuizQuestions.vue 
     saveQuiz: function() {
+        bus.$on("saveQuestion", function(data) {
+            this.questionData = data;
+            console.log(this.questionData)
+        })
         console.log(`Saving... Category: ${this.currCateg} Title: ${this.quizTitle} Num: ${this.questionNum}`)
         // this.$emit("getQuestions")
         Axios.post('http://127.0.0.1:5000/quiz/create', {
@@ -57,7 +62,7 @@ export default {
             createdBy: this.userId
         })
         .then(function (response) {
-            console.log(response);
+           // console.log(response);
         })
         .catch(function (error) {
             console.log(error);
@@ -67,29 +72,20 @@ export default {
    created() {
        bus.$on("userId", (data) => {
            this.userId = data
-           console.log(this.userId)
+
+            console.log(this.quizId);
+            Axios.post('http://127.0.0.1:5000/specific_quiz', {
+               id: this.quizId,
+            })
+            .then(function (response) {
+                //get information of quiz
+               // console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
        })
-    //    this.$http.get("http://127.0.0.1:5000/quiz/", {
-    //        params: {
-    //         id: this.userId
-    //        }
-    //    })
-    //    .then(function(data){
-    //        this.loadData = data
-    //        console.log(data);
-    //    })
-    //    .catch(function (error) {console.log(error);});
-
-    this.$http.get("http://127.0.0.1:5000/quiz/"+this.quizId)
-    .then((data) => {
-        console.log(data)
-    })
-    .catch(function (error) {
-            console.log(error);
-    });
    }
-
-
 }
 </script>
 <style lang="scss">

@@ -19,7 +19,7 @@ export default new Router({
             component: MyQuiz
         },
         {
-            path:'/create_quiz/id',
+            path:'/create_quiz/:id',
             component:CreateQuiz
         }
     ]

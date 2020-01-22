@@ -2,7 +2,7 @@
     <div>
         <div class="header">
             <ul class="nav">
-                <li><a href="#">Play</a></li>
+                <li><a href="/">Play</a></li>
                 <li><a href="#">Quizes</a></li>
                 <li><a href="#">Plans</a></li>
                 <li><a href="my_quiz">Create a Quiz</a></li>

@@ -23,19 +23,21 @@ export default {
             quizes:[],
         }
     },
-    beforeCreate() {
+    created() {
         bus.$on("userId", (data) => {
             this.userId = data
+
+            Axios.post("http://127.0.0.1:5000/quiz", {
+                createdBy:this.userId
+            })
+            .then(res => {
+                console.log(res.data)
+                this.quizes = res.data
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         })
-        Axios.get("http://127.0.0.1:5000/quiz", {
-            params: {createdBy:this.userId}
-        })
-        .then(res => {
-            this.quizes = res.data
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
     }
 }
 </script>

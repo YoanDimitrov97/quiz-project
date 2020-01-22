@@ -23,6 +23,7 @@ export default {
     },
     methods: {
         onSubmit() {
+            console.log(`${this.email} ${this.password}`)
             if(this.email.length > 0 && this.password.length > 0){
                 axios.post(process.env.VUE_APP_URL + '/login', {
                     email: this.email,

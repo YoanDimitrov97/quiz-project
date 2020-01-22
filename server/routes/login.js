@@ -6,17 +6,22 @@ const sessionCheck = require('../../middleware/sessionCheck');
 
 router.route('/').post((req, res) => {
     const { email, password } = req.body;
-    User.findOne({ email: email}, (err, data) => {
+    User.findOne({email: email}, (err, data) => {
         if(!err){
-            bcrypt.compare(password, data.password, (err, result) => {
-                if(result){
-                    req.session.userId = data._id;
-                    req.session.username = data.username;
-                    res.json(req.session);                 
-                }else {
-                    console.log('Wrong email or pass !');
-                }
-            });
+            if(data){
+                bcrypt.compare(password, data.password, (err, result) => {
+                    if(result){
+                        req.session.userId = data._id;
+                        req.session.username = data.username;
+                        res.json(req.session);
+                    }else {
+                        console.log('Wrong email or pass !');
+                    }
+                });
+            } else {
+                console.log("Email doesn't exist in DB...");
+            }
+           
         }else {
             console.log(err);
         }
