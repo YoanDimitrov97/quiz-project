@@ -1,11 +1,10 @@
 <template>
-    <form v-on:submit.prevent="onSubmit" id="quiz-login" method="post" class="form-login">
+    <form v-on:submit.prevent="onSubmit" id="quiz-login" method="post">
         <div class="login-wrap"></div>
         <input v-model="email" type="text" name="email" id="login-email" placeholder="Email">
         <input v-model="password" type="password" name="password" id="login-password" placeholder="Password">
         <button class="login-btn" type="submit">Sign In</button>
     </form>
-
 </template>
 
 <script>
@@ -13,7 +12,6 @@ import axios from 'axios';
 
 export default {
     name: 'Login',
-    props: ['isClicked'],
     data() {
         return {
             errors: [],
@@ -55,7 +53,7 @@ export default {
     margin-right: 20px;
     z-index: 2;
     input::placeholder {
-        color: #fff;
+        color: #ccc;
     }
     input {
         color: #fff;
@@ -78,7 +76,7 @@ export default {
         z-index: 2;
         height: 30px;
         width: 200px;
-        color: #FFF;
+        color: #E8D0DF;
         text-align: center;
         background: #0879F2;
     }
