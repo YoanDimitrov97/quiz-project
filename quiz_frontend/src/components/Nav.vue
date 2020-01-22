@@ -2,9 +2,10 @@
     <div>
         <div class="header">
             <ul class="nav">
-                <li><a href="">Play</a></li>
-                <li><a href="">Quizes</a></li>
-                <li><a href="">Plans</a></li>
+                <li><a href="/">Play</a></li>
+                <li><a href="#">Quizes</a></li>
+                <li><a href="#">Plans</a></li>
+                <li><a href="my_quiz">Create a Quiz</a></li>
             </ul>
             <ul class="nav_login" v-show="showLogin">
                 <div v-if="!isLoggedIn" class="login_section">
@@ -28,6 +29,7 @@ import axios from 'axios';
 import Login from './Index/Login.vue';
 import Register from './Index/Register.vue';
 import ProfileNav from './Index/ProfileNav.vue';
+import {bus} from "./../main.js"
 
 export default {
     name: 'Nav',
@@ -45,6 +47,7 @@ export default {
             isLoggedIn: false,
             rotateArrow: true,
             userName: null,
+            userId: null,
         }
     },
     beforeCreate() {
@@ -53,6 +56,8 @@ export default {
                 this.showLogin = true;
                 this.isLoggedIn = res.data.isLoggedIn;
                 this.userName = res.data.userName;
+                this.userId = res.data.userId;
+                bus.$emit("userId", this.userId)
             }).catch(err => { console.log(err) });
     },
     methods: {
@@ -113,7 +118,7 @@ export default {
 
         .nav {
             display:grid;
-            grid-template-columns:repeat(3, 160px);
+            grid-template-columns:repeat(4, 160px);
             justify-content:center;
             align-content:center;
             height:100%;

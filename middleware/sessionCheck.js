@@ -11,6 +11,7 @@ const sessionCheck = (req, res) => {
         res.json({
             isLoggedIn: true,
             userName: req.session.username,
+            userId: req.session.userId,
         });
     }
 };

@@ -4,6 +4,7 @@ import CreateQuiz from './components/CreateQuiz.vue'
 // import Nav from './components/Nav.vue'
 import Index from './components/Index.vue'
 import Play from './components/Play.vue'
+import MyQuiz from './components/MyQuiz.vue'
 
 Vue.use(Router)
 
@@ -16,7 +17,11 @@ export default new Router({
             component: Index
         },
         {
-            path:'/create_quiz.html',
+            path:'/my_quiz',
+            component: MyQuiz
+        },
+        {
+            path:'/create_quiz/:id',
             component:CreateQuiz
         },
         {

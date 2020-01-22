@@ -20,27 +20,27 @@
             <img src="img/error.png" alt="">
         </div>
         <div class="question_body">
-            <textarea v-model="questionData.title" cols="30" placeholder="Write your question here..." rows="10"></textarea>
+            <textarea v-model="data.title" cols="30" placeholder="Write your question here..." rows="10"></textarea>
         </div>
         <div class="question_footer">
             <div>
                 <div>
-                    <input type="text" placeholder="Answer A">
-                    <input type="radio" name="correctAnswer">
+                    <input v-model="data.answerA" type="text" placeholder="Answer A">
+                    <input v-model="data.correct" value="A" type="radio" name="correctAnswer">
                 </div>
                 <div>
-                    <input type="text" placeholder="Answer B">
-                    <input type="radio" name="correctAnswer">
+                    <input v-model="data.answerB" type="text" placeholder="Answer B">
+                    <input v-model="data.correct" value="B" type="radio" name="correctAnswer">
                 </div>
             </div>
             <div>
                 <div>
-                    <input type="text" placeholder="Answer C">
-                    <input type="radio" name="correctAnswer">
+                    <input v-model="data.answerC" type="text" placeholder="Answer C">
+                    <input v-model="data.correct" value="C" type="radio" name="correctAnswer">
                 </div>
                 <div>
-                    <input type="text" placeholder="Answer D">
-                    <input type="radio" name="correctAnswer">
+                    <input v-model="data.answerD" type="text" placeholder="Answer D">
+                    <input v-model="data.correct" value="D" type="radio" name="correctAnswer">
                 </div>
             </div>
         </div>
@@ -53,15 +53,30 @@ export default {
     name:"NewQuizQuestion",
     data() {
         return {
-            questionData: {
-                title:""
+            data: {
+                title:"",
+                answerA: "",
+                answerB: "",
+                answerC: "",
+                answerD: "",
+                correct: "",
             }
         }
     },
     props: ['id'],
     methods: {
         saveChanges() {
-            console.log("Saving...")
+            var sendData = {
+                id:this.id,
+                title:this.data.title,
+                answerA: this.data.answerA,
+                answerB: this.data.answerB,
+                answerC: this.data.answerC,
+                answerD: this.data.answerD,
+                correct: this.data.correct,
+            }
+            bus.$emit("saveQuestion", sendData)
+            // console.log("Saving... " + this.id)
         }     
     },
 }

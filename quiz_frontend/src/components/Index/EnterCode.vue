@@ -12,8 +12,8 @@ export default {
 </script>
 <style lang="scss">
 .box {
-    width:250px;
-    height:260px;
+    width:320px;
+    height:200px;
     background:#FFB45D;
     border-radius:5px;
     display:grid;

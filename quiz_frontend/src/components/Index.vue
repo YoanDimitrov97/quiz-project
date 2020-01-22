@@ -40,7 +40,9 @@ export default {
     margin-top:10px;
     display:grid;
     grid-template-columns:30% 40% 30%;
-    z-index: 1;
+    justify-items:center;
+    position:absolute;
+    z-index:1;
 
     .middle {
         justify-self: center;
