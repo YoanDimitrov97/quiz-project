@@ -36,6 +36,9 @@ app.use(session({
 const quizRouter = require('./routes/quiz');
 app.use('/', quizRouter);
 
+const userRouter = require('./routes/users');
+app.use('/', userRouter);
+
 //For registering
 const registerRouter = require('./routes/register');
 app.use('/register', registerRouter);

@@ -9,8 +9,15 @@ router.route('/').get(sessionCheck, (req, res) => {
     // .catch(err => res.status(400).json('Error' + err));
 })
 
+//loads all quizes
+router.route('/all_quizes').post((req,res) => {
+    Quiz.find().sort({rating : "desc"}).limit(20)
+    .then(doc => res.json(doc))
+    .catch(err => res.status(400).json('Error' + err));
+})
+
 router.route('/quiz').post((req,res) => {
-    Quiz.find({"createdBy":req.body.id})
+    Quiz.find({"createdBy":req.body.createdBy})
     .then(doc => res.json(doc))
     .catch(err => res.status(400).json('Error' + err));
 })

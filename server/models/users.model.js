@@ -9,6 +9,7 @@ const userSchema = new Schema({
     password:{type:String},
     email:{type:String},
     createdOn:{type:Date},
+    completedQuizes:{type:Array},
 });
 
 

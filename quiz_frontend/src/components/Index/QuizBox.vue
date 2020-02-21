@@ -6,15 +6,15 @@
         <div class="rightside">
             <div class="quiz_box_header">
                 <p>Questions: <span>{{data.numOfQuestions}}</span></p>
-                <p>4.7</p>
+                <p>{{data.rating}}</p>
                 <img src="../../assets/star.png" alt="">
             </div>
             <div class="main">
                 <p>{{data.title}}</p>
             </div>
             <div class="footer">
-                <div class="play_quiz"><p>Play Quiz</p></div>
-                <div class="create_room"><p>Create a Room</p></div>
+                <div class="play_quiz" v-on:click="playQuiz"><p>Play Quiz</p></div>
+                <div class="create_room" v-on:click="createRoom"><p>Create a Room</p></div>
             </div>
         </div>
     </div>
@@ -23,7 +23,15 @@
 export default {
     name:"QuizBox",
     props: {
-        data: {}
+        data: {},
+    },
+    methods: {
+        playQuiz: function() {
+            this.$router.push('/play/' + this.data._id);
+        },
+        createRoom: function() {
+            this.$router.push('/CreateRoom/' + this.data._id);
+        }
     },
 }
 </script>
