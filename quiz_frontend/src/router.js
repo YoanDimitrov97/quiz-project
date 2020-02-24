@@ -20,8 +20,12 @@ export default new Router({
             path:'/my_quiz',
             component: MyQuiz
         },
+        // {
+        //     path:'/create_quiz/:id',
+        //     component:CreateQuiz
+        // },
         {
-            path:'/create_quiz/:id',
+            path:'/create_quiz/',
             component:CreateQuiz
         },
         {

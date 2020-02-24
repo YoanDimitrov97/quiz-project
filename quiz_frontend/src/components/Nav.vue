@@ -5,7 +5,7 @@
                 <li><a href="/">Play</a></li>
                 <li><a href="#">Quizes</a></li>
                 <li><a href="#">Plans</a></li>
-                <li><a href="my_quiz">Create a Quiz</a></li>
+                <li v-if="isLoggedIn"><a href="my_quiz">Create a Quiz</a></li>
             </ul>
             <ul class="nav_login" v-show="showLogin">
                 <div v-if="!isLoggedIn" class="login_section">
@@ -50,7 +50,7 @@ export default {
             userId: null,
         }
     },
-    beforeCreate() {
+    created() {
         axios.get(process.env.VUE_APP_URL)
             .then(res => {
                 this.showLogin = true;
