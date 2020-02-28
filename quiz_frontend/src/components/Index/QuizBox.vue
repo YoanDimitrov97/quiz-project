@@ -20,19 +20,39 @@
     </div>
 </template>
 <script>
+import Axios from 'axios'
+import {bus} from "../../main.js"
 export default {
     name:"QuizBox",
     props: {
         data: {},
+        user:null,
     },
     methods: {
         playQuiz: function() {
             this.$router.push('/play/' + this.data._id);
         },
         createRoom: function() {
-            this.$router.push('/CreateRoom/' + this.data._id);
+            if(this.userId){
+                Axios.post("http://127.0.0.1:5000/create_room", {
+                    usersInRoom: this.userId,
+                    quizId: this.data._id,
+                    owner:this.userId,
+                })
+                .then(res => {
+                    this.$router.push('/create_room/'+res.data._id);
+                })
+                .catch(function (error) { console.log(error); });
+            } else {
+                alert("Please login or sign up...");
+            }
         }
     },
+    created() {
+        bus.$on("user", (data) => {
+            this.user = data;
+        })
+    }
 }
 </script>
 <style lang="scss">

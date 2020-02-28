@@ -24,8 +24,8 @@ export default {
         }
     },
     created() {
-        bus.$on("userId", (data) => {
-            this.userId = data
+        bus.$on("user", (data) => {
+            this.userId = data.userId
             Axios.post("http://127.0.0.1:5000/quiz", {
                 createdBy:this.userId
             })

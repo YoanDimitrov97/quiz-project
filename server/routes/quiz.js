@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const path = require('path');
 const Quiz = require("../models/quiz.model");
+const Rooms = require("../models/rooms.model");
 const sessionCheck = require('../../middleware/sessionCheck');
 
 router.route('/').get(sessionCheck, (req, res) => {

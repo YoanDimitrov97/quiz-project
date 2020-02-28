@@ -128,9 +128,8 @@ export default {
         this.loadQuiz();
     }, 
     created() {
-        bus.$on("userId", (data) => {
-            this.userId = data
-            console.log(this.userId);
+        bus.$on("user", (data) => {
+            this.userId = data.userId;
         })
     }
 }

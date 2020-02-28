@@ -39,6 +39,9 @@ app.use('/', quizRouter);
 const userRouter = require('./routes/users');
 app.use('/', userRouter);
 
+const roomRouter = require('./routes/room');
+app.use('/', roomRouter);
+
 //For registering
 const registerRouter = require('./routes/register');
 app.use('/register', registerRouter);

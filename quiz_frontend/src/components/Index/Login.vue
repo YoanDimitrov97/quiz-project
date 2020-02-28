@@ -10,7 +10,7 @@
 
 <script>
 import axios from 'axios';
-
+import {bus} from "../../main.js"
 export default {
     name: 'Login',
     props: ['isClicked'],
@@ -29,8 +29,11 @@ export default {
                     email: this.email,
                     password: this.password
                 }).then(res => {
+                    console.log(res);
                     if(res.data.userId){
                         this.$emit('hideLogin', res.data);
+                        //this emits userId after login for other components to use like CreateRoom
+                        bus.$emit("user", res.data);
                     }
                 }).catch(err => { console.log(err) });
             } else {

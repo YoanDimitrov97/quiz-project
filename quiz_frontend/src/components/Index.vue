@@ -44,8 +44,8 @@ export default {
     },
     created() {
         this.loadTopQuizes();
-        bus.$on("userId", (data) => {
-            this.userId = data
+        bus.$on("user", (data) => {
+            this.userId = data.userId
         })
     }
 }
