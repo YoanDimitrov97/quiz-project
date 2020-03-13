@@ -1,13 +1,28 @@
 <template>
     <div class="box">
         <h1>Enter CODE</h1>
-        <input type="text" maxlength="6" placeholder="Enter CODE">
-        <div><p>Play Quiz</p></div>
+        <input type="text" v-model="code" maxlength="6" placeholder="Enter CODE">
+        <div v-on:click="enterRoom"><p>Play Quiz</p></div>
     </div>
 </template>
 <script>
+import Axios from "axios"
 export default {
     name:"EnterCode",
+    data() {
+        return {
+            code:null,
+        }
+    },
+    methods: {
+        enterRoom: function(){
+            //check if code corresponds to room, check if room is active, 
+            Axios.post("http://127.0.0.1:5000/join_room", {
+                code:this.code,
+            })
+            console.log(this.code);
+        }
+    }
 }
 </script>
 <style lang="scss">
@@ -39,6 +54,7 @@ export default {
         height:40px;
         align-items:center;
         color:#E8D0DF;
+        cursor:pointer;
     }
 }
 </style>

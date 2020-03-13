@@ -8,7 +8,7 @@
                 <div class="room_code">Room Code {{code}}</div>
             </div>
             <div class="room_body">
-                <div v-bind:key="user" v-for="user in data.usersInRoom"><p>User 1</p></div>
+                <div v-bind:key="user" v-for="user in data.usersInRoom"><p>{{data.user}}</p></div>
             </div>
         </div>
     </div>
@@ -35,8 +35,7 @@ export default {
                 id: this.roomId,
             })
             .then(res => {
-                console.log(res);
-                this.code = this.roomId.slice(this.roomId.length - 6)
+                this.code = res.data.code;
                 this.data = res.data;
             })
             .catch(function (error) { console.log(error); });

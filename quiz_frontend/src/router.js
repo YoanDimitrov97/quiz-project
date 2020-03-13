@@ -29,7 +29,7 @@ export default new Router({
             component:PlayQuiz
         },
         {
-            path:'/create_room/:id',
+            path:'/room/:id',
             component:CreateRoom
         },
     ]

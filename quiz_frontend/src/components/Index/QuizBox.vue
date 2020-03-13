@@ -33,19 +33,32 @@ export default {
             this.$router.push('/play/' + this.data._id);
         },
         createRoom: function() {
-            if(this.userId){
+            if(this.user){
+                let newCode = this.randomCode();
+                console.log(`New code is: ${newCode}`);
+
                 Axios.post("http://127.0.0.1:5000/create_room", {
-                    usersInRoom: this.userId,
-                    quizId: this.data._id,
-                    owner:this.userId,
+                    usersInRoom: this.user.userId,
+                    quizId: {"user_id":this.data._id, "username":this.userName},
+                    owner:this.user.userId,
+                    code: newCode,
                 })
                 .then(res => {
-                    this.$router.push('/create_room/'+res.data._id);
+                    this.$router.push('/room/'+newCode);
                 })
                 .catch(function (error) { console.log(error); });
             } else {
                 alert("Please login or sign up...");
             }
+        },
+        randomCode: function(){
+            let code = "";
+            let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            for (let i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            console.log(code);
+            return code;
         }
     },
     created() {
