@@ -13,7 +13,7 @@
             <p>{{data.title}}</p>
         </div>
         <div class="footer">
-            <div v-on:click="openQuiz" v-bind:quizid="data._id" class="play_quiz"><p>Edit Quiz</p></div>
+            <div v-on:click="editQuiz" v-bind:quizid="data._id" class="play_quiz"><p>Edit Quiz</p></div>
             <div v-on:click="deleteQuiz" v-bind:quizid="data._id" class="play_quiz"><p>Delete Quiz</p></div>
         </div>
     </div>
@@ -28,15 +28,14 @@ export default {
         index: null,
     },
     methods: {
-        openQuiz: function() {
-            this.$router.push('/create_quiz/' + this.data._id)
+        editQuiz() {
+            this.$router.push({ path: `/create_quiz/${this.data._id}`});
         },
         deleteQuiz() {
             Axios.post(process.env.VUE_APP_URL + '/quiz/delete', {
                 quizId: this.data._id
             })
             .then(res => {
-                console.log(res.data);
                 this.$emit('deleteQuiz', this.index);
             }).catch(err => {console.log(err)});
         }

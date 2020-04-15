@@ -18,14 +18,15 @@ export default new Router({
         },
         {
             path:'/my_quiz',
+            name: 'MyQuiz',
             component: MyQuiz
         },
-        // {
-        //     path:'/create_quiz/:id',
-        //     component:CreateQuiz
-        // },
         {
-            path:'/create_quiz/',
+            path:'/create_quiz/:id',
+            component:CreateQuiz
+        },
+        {
+            path:'/create_quiz',
             component:CreateQuiz
         },
         {

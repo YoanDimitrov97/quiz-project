@@ -55,6 +55,7 @@
 import {bus} from "../../main"
 import { setTimeout } from 'timers'
 import { log } from 'util'
+import Axios from 'axios'
 export default {
     name:"NewQuizQuestion",
     data() {
@@ -76,7 +77,20 @@ export default {
             }
         }
     },
-    props: ['id'],
+    props: {
+        id: null,
+        questionData: {}
+    },
+    // created() {
+    //     const quizId = this.$route.params.id;
+    //     if(quizId){
+    //         Axios.post(process.env.VUE_APP_URL + `/update_quiz`, {
+    //             quizId: quizId
+    //         }).then(res => {
+
+    //         }).catch(err => { console.log(err) });
+    //     } 
+    // },
     methods: {
         answerClicked(answer) {
             switch(answer) {
@@ -131,7 +145,7 @@ $question_h:370px;
     grid-template-rows:15% 45% 35% 5%;
     background:#242B4C;
     border-radius:5px;
-    box-shadow: 0px 0px 12px #1C011B;
+    box-shadow: 0px 0px 12px rgba(28, 1, 27, 0.5);
     margin-top: 25px;
     margin-bottom:60px;
 
@@ -193,6 +207,7 @@ $question_h:370px;
             color: #fff;
         }
         textarea {
+            color: #fff;
             width:calc(100% - 15px * 2);
             height:calc(80% - 15px * 2);
             align-self:center;
@@ -203,7 +218,9 @@ $question_h:370px;
             border: 2px solid #0E476D;
             border-radius: 5px;
         }
-        
+        textarea:focus {
+            outline: none;
+        }
     }
 
     .question_footer {
@@ -228,6 +245,9 @@ $question_h:370px;
                 input {
                     border:none;
                     background: #202F53;
+                }
+                input:focus {
+                    outline: none;
                 }
                 input:first-child {
                     color: #fff;

@@ -4,14 +4,17 @@
     <div class="wrapper">
         <div class="create_quiz" v-bind:test=quizId>
             <select v-model="currCateg" class="category_select">
+                <option disabled selected="selected" value>Select Category</option>
                 <option v-bind:key="option" v-for="option in selectCategories">{{option}}</option>
             </select>
             <input type="text" placeholder="Quiz Title" class="quiz_title" v-model="quizTitle">
             <div class="questions" ref="container">
-                <NewQuizQuestion :id=questionNum v-bind:key="questionNum" v-for="questionNum in questionNum" />
+                <NewQuizQuestion :id="questionNum" :questionData="questionData" v-bind:key="questionNum" v-for="questionNum in questionNum" />
             </div>
-            <div class="add_question" v-on:click="addQuestion"><p>+ Add New Question</p></div>
-            <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p></div>
+            <div class="add-save-container">
+                <div class="add_question" v-on:click="addQuestion"><p>Add New Question</p><img src="~@/assets/images/add.svg"></div>
+                <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p><img src="~@/assets/images/Save.svg"></div>
+            </div> 
         </div>
     </div>
 </div>
@@ -56,8 +59,8 @@ export default {
                 category: this.currCateg,
                 createdBy: this.userId
             })
-            .then(function (res) {
-                // console.log(res);
+            .then(res => {
+                this.$router.push({ name: 'MyQuiz' });
             })
             .catch(function (error) {
                 // console.log(error);
@@ -65,26 +68,25 @@ export default {
         },
     },
     mounted() {
+        if (this.quizId){
+            Axios.post(process.env.VUE_APP_URL + '/specific_quiz', {
+                id: this.quizId,
+            })
+            .then(res => {
+                console.log(res.data);
+                this.currCateg = res.data.category;
+                this.quizTitle = res.data.title;
+                this.questionNum = res.data.numOfQuestions;
+                this.questionData = res.data.questions[0];
+            }).catch(err => { console.log(err) });
+        }
         bus.$on("saveQuestion", (data) => {
             this.questionData[data.id] = data;  
         });
     },
-    created() { 
+    created() {
         bus.$on("userId", (data) => {
             this.userId = data;
-            // console.log(this.quizId);
-            if (this.quizId){
-                Axios.post(process.env.VUE_APP_URL + '/specific_quiz', {
-                id: this.quizId,
-                })
-                .then(function (response) {
-                    // get information of quiz
-                    // console.log(response);
-                })
-                .catch(function (error) {
-                    // console.log(error);
-                });
-            }
         })
     }
 }
@@ -143,33 +145,70 @@ $categ_w: 700px;
                 }
             }
         }
-
+        .category_select:focus {
+            outline: none;
+        }
         .quiz_title {
             border-radius:5px;
             height:$categ_h;
-            text-indent:15px;
+            text-indent:20px;
             border:none;
+        }
+        .quiz_title:focus {
+            outline: none;
+        }
+        .quiz_title::placeholder {
+            color: #000;
         }
 
         .questions {
             display: grid;
             width:$categ_w;
         }
-        .add_question {
-            width:$categ_w;
-            background:#fff;
-            border-radius:5px;
-            height:30px;
-            display:grid;
-            align-items:center;
-            text-indent:15px;
-            cursor:pointer;
-        }
+        .add-save-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 70px;
+            .add_question {
+                width: 180px;
+                display: grid;
+                grid-template-columns: 80% 20%;
+                background: #16192C;
+                border-radius: 20px;
+                padding: 4px 4px;
+                justify-self: end;
+                box-shadow: 0px 0px 12px rgba(28, 1, 27, 0.5);
+                img {
+                    justify-self: end;
+                    align-self: center;
+                    width: 30px;
+                }
+                p {
+                    justify-self: center;
+                    align-self: center;
+                    color: #fff;
+                }
+            }
 
-        .save_quiz {
-            width:160px;
-            background:lime;
-            cursor:pointer;
+            .save_quiz {
+                width: 180px;
+                display: grid;
+                grid-template-columns: 80% 20%;
+                background: #0879F2;
+                border-radius: 20px;
+                padding: 4px 4px;
+                justify-self: start;
+                img {
+                    justify-self: end;
+                    align-self: center;
+                    width: 30px;
+                }
+                p {
+                    justify-self: center;
+                    align-self: center;
+                    color: #FFF;
+                }
+            }
         }
     }
 }

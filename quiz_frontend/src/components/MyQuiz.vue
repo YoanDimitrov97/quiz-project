@@ -25,9 +25,8 @@ export default {
     },
     methods: {
         deleteQuiz(id) {
-            const index = this.quizes[id];
-            if(index) {
-                this.quizes.splice(index, 1);
+            if(id) {
+                this.quizes.splice(id, 1);
             }
         }
     },
@@ -39,7 +38,7 @@ export default {
                 createdBy:this.userId
             })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 if(!res.data.length){
                     console.log("Some error here !");
                 }else {
