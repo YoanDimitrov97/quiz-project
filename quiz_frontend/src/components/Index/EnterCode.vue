@@ -6,12 +6,14 @@
     </div>
 </template>
 <script>
+import {bus} from "../../main";
 import Axios from "axios"
 export default {
     name:"EnterCode",
     data() {
         return {
             code:null,
+            user:null,
         }
     },
     methods: {
@@ -19,9 +21,19 @@ export default {
             //check if code corresponds to room, check if room is active, 
             Axios.post("http://127.0.0.1:5000/join_room", {
                 code:this.code,
+                id: this.user.userId,
+                name:this.user.userName
+            }).then(res => {
+                console.log(res)
+                this.$router.push('/room/' + res.data.code);
             })
             console.log(this.code);
         }
+    },
+    created() {
+        bus.$on("user", (data) => {
+            this.user = data;
+        })
     }
 }
 </script>

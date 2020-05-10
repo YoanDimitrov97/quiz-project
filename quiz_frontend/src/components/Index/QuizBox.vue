@@ -38,8 +38,8 @@ export default {
                 console.log(`New code is: ${newCode}`);
 
                 Axios.post("http://127.0.0.1:5000/create_room", {
-                    usersInRoom: this.user.userId,
-                    quizId: {"user_id":this.data._id, "username":this.userName},
+                    usersInRoom: [{id: this.user.userId, name: this.user.userName}],
+                    quizId: this.data._id,
                     owner:this.user.userId,
                     code: newCode,
                 })

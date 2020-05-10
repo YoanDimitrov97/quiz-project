@@ -14,9 +14,11 @@
     </div>
 </template>
 <script>
+import Vue from 'vue'
 import Nav from "./Nav.vue"
 import Axios from "axios"
 import {bus} from "../main.js"
+import io from "socket.io-client"
 export default {
     name:"CreateRoom",
     components: {
@@ -27,8 +29,10 @@ export default {
             data:null,
             roomId: this.$route.params.id,
             code: null,
+            user:null,
         }
     },
+        
     methods: {
         getRoomInfo: function() {
             Axios.post("http://127.0.0.1:5000/get_room", {
@@ -39,10 +43,36 @@ export default {
                 this.data = res.data;
             })
             .catch(function (error) { console.log(error); });
+        },
+        removeUserFromRoom: function() {
+            Axios.post("http://127.0.0.1:5000/remove_from_room", {
+                code:this.code,
+                id:this.user.userId,
+                name:this.user.userName
+            })
+            .then(res => {
+                this.code = res.data.code;
+                this.data = res.data;
+            })
+            .catch(function (error) { console.log(error); });
         }
     },
+    created() {
+        bus.$on("user", (data) => {
+            this.user = data;
+        })
+    },
     mounted() {
+        const socket = io();
+        socket.emit("test", "Testing...");
         this.getRoomInfo();
+    },
+    // beforeUpdate(){
+    //     console.log("UPDATING...");
+    //     this.getRoomInfo();
+    // },
+    beforeDestroy() {
+        this.removeUserFromRoom();
     }
 }
 </script>
