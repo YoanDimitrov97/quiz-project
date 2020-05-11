@@ -35,7 +35,8 @@ export default {
     width: 240px;
     height: 150px;
     opacity: 1;
-    z-index:2;
+    z-index: 2;
+    margin-right: 20px;
     li {
         display: grid;
     }
@@ -47,12 +48,11 @@ export default {
         z-index: 2;
     }
     .profile-wrap {
-        background: #FFFFFF 0% 0% no-repeat padding-box;
+        background-color: #1c011b;
+        backdrop-filter: blur(6px);
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        opacity: 0.1;
+        opacity: 0.5;
         position: absolute;
         top: 0px;
         width: 100%;

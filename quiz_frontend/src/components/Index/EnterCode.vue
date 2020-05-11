@@ -54,7 +54,7 @@ export default {
     input {
         border:none;
         border-radius:25px;
-        width:240px;
+        width:200px;
         height:40px;
         text-align:center;
     }

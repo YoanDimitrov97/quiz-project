@@ -5,12 +5,12 @@
                 <li><a href="/">Play</a></li>
                 <li><a href="#">Quizes</a></li>
                 <li><a href="#">Plans</a></li>
-                <li><a href="my_quiz">Create a Quiz</a></li>
+                <li v-if="isLoggedIn"><a href="my_quiz">Create a Quiz</a></li>
             </ul>
             <ul class="nav_login" v-show="showLogin">
                 <div v-if="!isLoggedIn" class="login_section">
                     <li><a v-on:click.prevent="signIn" href="">Login</a></li>
-                    <li><a href="">Sign Up</a></li>
+                    <li><a v-on:click.prevent="register" href="">Sign Up</a></li>
                 </div>
                 <div v-else class="profile_section">
                     <p>Welcome, {{ userName }}</p>
@@ -18,7 +18,8 @@
                 </div>
             </ul>
         </div>
-        <Login v-if="isClicked" @hideLogin="hideLogin" v-bind:isClicked="isClicked" />
+        <Login v-if="isClickedLogin" @hideLogin="hideLogin" />
+        <Register v-if="isClickedReg" />
         <ProfileNav v-if="profileNavClicked" @logout="logout"/>
     </div>
 </template>
@@ -26,6 +27,7 @@
 <script>
 import axios from 'axios';
 import Login from './Index/Login.vue';
+import Register from './Index/Register.vue';
 import ProfileNav from './Index/ProfileNav.vue';
 import {bus} from "./../main.js"
 
@@ -33,20 +35,22 @@ export default {
     name: 'Nav',
     components: {
         Login,
+        Register,
         ProfileNav
     },
     data () {
         return {
             profileNavClicked: false,
             showLogin: false,
-            isClicked: false,
+            isClickedLogin: false,
+            isClickedReg: false,
             isLoggedIn: false,
             rotateArrow: true,
             userName: null,
             userId: null,
         }
     },
-    beforeCreate() {
+    created() {
         axios.get(process.env.VUE_APP_URL)
             .then(res => {
                 this.showLogin = true;
@@ -58,12 +62,25 @@ export default {
     },
     methods: {
         signIn() {
-            if(this.isClicked == false){
-                this.isClicked = true;
+            if(this.isClickedLogin == false){ // Check if Login button is clicked, so it can be displayed Login nav.
+                if(this.isClickedReg == true){ // Check if Register button is clicked and if it so then hide it.
+                    this.isClickedReg = false;
+                }
+                this.isClickedLogin = true;
             }else {
-                this.isClicked = false;
+                this.isClickedLogin = false; // This will hide Login nav menu.
             }
             
+        },
+        register() {
+            if(this.isClickedReg == false){ // Check if Register button is clicked, so it can be displayed register nav.
+                if(this.isClickedLogin == true){ // Check if Login button is clicked and if it so then hide it.
+                    this.isClickedLogin = false;
+                }
+                this.isClickedReg = true;
+            }else {
+                this.isClickedReg = false; // This will hide register nav menu.
+            }
         },
         openProfileNav() {
             if(this.profileNavClicked == false){
@@ -76,11 +93,12 @@ export default {
             
         },
         hideLogin(value) {
-            this.isClicked = false;
+            this.isClickedLogin = false;
             this.isLoggedIn = true;
             this.userName = value.username;
         },
         logout(value) {
+            this.rotateArrow = true;
             this.profileNavClicked = false;
             this.isLoggedIn = value;
         },
@@ -150,7 +168,6 @@ export default {
                 justify-content:center;
                 font-size:14px;
                 grid-template-columns: 1fr 1fr;
-                
                 p {
                     justify-self: end;
                     align-self: center;

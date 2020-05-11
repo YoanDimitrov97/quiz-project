@@ -1,11 +1,10 @@
 <template>
-    <form v-on:submit.prevent="onSubmit" id="quiz-login" method="post" class="form-login" v-bind:class="{ animationOn: isClicked }">
+    <form v-on:submit.prevent="onSubmit" id="quiz-login" method="post">
         <div class="login-wrap"></div>
         <input v-model="email" type="text" name="email" id="login-email" placeholder="Email">
         <input v-model="password" type="password" name="password" id="login-password" placeholder="Password">
         <button class="login-btn" type="submit">Sign In</button>
     </form>
-
 </template>
 
 <script>
@@ -13,7 +12,6 @@ import axios from 'axios';
 import {bus} from "../../main.js"
 export default {
     name: 'Login',
-    props: ['isClicked'],
     data() {
         return {
             errors: [],
@@ -23,7 +21,6 @@ export default {
     },
     methods: {
         onSubmit() {
-            console.log(`${this.email} ${this.password}`)
             if(this.email.length > 0 && this.password.length > 0){
                 axios.post(process.env.VUE_APP_URL + '/login', {
                     email: this.email,
@@ -56,18 +53,22 @@ export default {
     opacity: 1;
     transform: translateY(0);
     padding: 10px 0 10px 0;
-    z-index:2;
+    margin-right: 20px;
+    z-index: 2;
+    input::placeholder {
+        color: #ccc;
+    }
     input {
+        color: #fff;
         justify-self: center;
         align-self: center;
-        background: #00000040 0% 0% no-repeat padding-box;
+        background: #0000008a;
         width: 200px;
         height: 30px;
         border: none;
         text-indent: 15px;
         border-radius: 5px;
         z-index: 2;
-        color: #E8D0DF;
         cursor: pointer;
     }
     .login-btn {
@@ -78,17 +79,16 @@ export default {
         z-index: 2;
         height: 30px;
         width: 200px;
-        color: #FFF;
+        color: #E8D0DF;
         text-align: center;
         background: #0879F2;
     }
     .login-wrap {
-        background: #FFFFFF 0% 0% no-repeat padding-box;
+        background-color: #1c011b;
+        backdrop-filter: blur(6px);
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        opacity: 0.1;
+        opacity: 0.5;
         position: absolute;
         top: 0px;
         width: 100%;

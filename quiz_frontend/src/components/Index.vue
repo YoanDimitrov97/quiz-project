@@ -52,6 +52,7 @@ export default {
 </script>
 <style lang="scss">
 .wrapperz {
+    position: absolute;
     width:100%;
     margin-top:10px;
     display:grid;
@@ -61,12 +62,16 @@ export default {
     z-index:1;
 
     .middle {
+        justify-self: center;
         overflow:auto;
         height:calc(100vh - 70px);
 
         & > * {
             margin-bottom:10px;
         }
+    }
+    .right-side {
+        justify-self: start;
     }
 }
 </style>

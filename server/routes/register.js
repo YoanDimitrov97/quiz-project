@@ -8,8 +8,9 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: '+err));
 })
 
-router.route('/add').post((req, res) => {
-    // const pass = passHash(req.body.password);
+router.route('/').post((req, res) => {
+    console.log(req.body);
+    
     const username = req.body.username;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -27,7 +28,7 @@ router.route('/add').post((req, res) => {
     });
 
     newUser.save()
-    .then(() => res.json("User created!"))
+    .then(() => res.status(200).json("Successfully registered"))
     .catch(err => res.status(400).json("Error: " + err));
 })
 

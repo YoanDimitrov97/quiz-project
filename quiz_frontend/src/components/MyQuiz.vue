@@ -2,8 +2,8 @@
     <div class="myQuiz_wrapper">
         <Nav /> 
         <div class="myQuiz_holder">
-            <button v-on:click="$router.push('/create_quiz/'+quiz._id)" class="create_quiz_btn"><p>Create New Quiz</p></button>
-            <MyQuizBox :data=quiz v-for="quiz in quizes" v-bind:key=quiz />
+            <button v-on:click="$router.push('/create_quiz/')" class="create_quiz_btn"><p>Create New Quiz</p></button>
+            <MyQuizBox @deleteQuiz="deleteQuiz" :data=quiz :index=index v-for="(quiz, index) in quizes" v-bind:key="index" />
         </div>
     </div>
 </template>
@@ -23,14 +23,28 @@ export default {
             quizes:[],
         }
     },
+    methods: {
+        deleteQuiz(id) {
+            if(id) {
+                this.quizes.splice(id, 1);
+            }
+        }
+    },
     created() {
         bus.$on("user", (data) => {
             this.userId = data.userId
-            Axios.post("http://127.0.0.1:5000/quiz", {
+            // console.log(this.userId);
+            Axios.post(process.env.VUE_APP_URL + "/quiz", {
                 createdBy:this.userId
             })
             .then(res => {
-                this.quizes = res.data
+                // console.log(res.data);
+                if(!res.data.length){
+                    console.log("Some error here !");
+                }else {
+                    this.quizes = res.data;
+                }
+               
             })
             .catch(function (error) {
                 console.log(error);
@@ -41,14 +55,18 @@ export default {
 </script>
 <style lang="scss">
 .myQuiz_holder {
-    width:70%;
+    height: calc(100vh - 60px); // This 60px come from the header
     margin: 0 auto;
     display:grid;
     justify-content:center;
+    overflow: auto;
 
     .create_quiz_btn {
-        width:400px;
-        background:#fff;
+        position: sticky;
+        top: 10px;
+        width:200px;
+        background:#aa076b;
+        color: #fff;
         border-radius:25px;
         height:30px;
         display:grid;
