@@ -4,7 +4,7 @@
         <div class="wrapperz">
             <div></div>
             <div class="middle">
-                <QuizBox :data=custom v-bind:key="num" v-for="num in num" />
+                <QuizBox :data=quiz v-bind:key="quiz" v-for="quiz in quizes" />
             </div>
             <div class="rightside">
                 <EnterCode />
@@ -16,6 +16,8 @@
 import Nav from "./Nav.vue"
 import QuizBox from "./Index/QuizBox.vue"
 import EnterCode from "./Index/EnterCode.vue"
+import Axios from 'axios'
+import {bus} from "../main.js"
 export default {
     name:"Index",
     components: {
@@ -23,17 +25,32 @@ export default {
     },
     data() {
         return {
-            num:5,
-            custom: {
-                numOfQuestions:20,
-                title: "It's Time To Find Out Which Member Of Pentagon You'll Date"
-            }
+            quizes:[],
+            userId:null,
         }
+    },
+    methods: {
+        //right now loads only logged user's quizes
+        loadTopQuizes: function () {
+            Axios.post("http://127.0.0.1:5000/all_quizes")
+            .then(res => {
+                this.quizes = res.data
+                console.log(this.quizes);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        } 
+    },
+    created() {
+        this.loadTopQuizes();
+        bus.$on("user", (data) => {
+            this.userId = data.userId
+        })
     }
 }
 </script>
 <style lang="scss">
-
 .wrapperz {
     position: absolute;
     width:100%;

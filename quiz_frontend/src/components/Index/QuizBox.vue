@@ -6,25 +6,66 @@
         <div class="rightside">
             <div class="quiz_box_header">
                 <p>Questions: <span>{{data.numOfQuestions}}</span></p>
-                <p>4.7</p>
+                <p>{{data.rating}}</p>
                 <img src="../../assets/star.png" alt="">
             </div>
             <div class="main">
                 <p>{{data.title}}</p>
             </div>
             <div class="footer">
-                <div class="play_quiz"><p>Play Quiz</p></div>
-                <div class="create_room"><p>Create a Room</p></div>
+                <div class="play_quiz" v-on:click="playQuiz"><p>Play Quiz</p></div>
+                <div class="create_room" v-on:click="createRoom"><p>Create a Room</p></div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Axios from 'axios'
+import {bus} from "../../main.js"
 export default {
     name:"QuizBox",
     props: {
-        data: {}
+        data: {},
+        user:null,
     },
+    methods: {
+        playQuiz: function() {
+            this.$router.push('/play/' + this.data._id);
+        },
+        createRoom: function() {
+            if(this.user){
+                let newCode = this.randomCode();
+                console.log(`New code is: ${newCode}`);
+
+                Axios.post("http://127.0.0.1:5000/create_room", {
+                    usersInRoom: [{id: this.user.userId, name: this.user.userName}],
+                    quizId: this.data._id,
+                    owner:this.user.userId,
+                    code: newCode,
+                })
+                .then(res => {
+                    this.$router.push('/room/'+newCode);
+                })
+                .catch(function (error) { console.log(error); });
+            } else {
+                alert("Please login or sign up...");
+            }
+        },
+        randomCode: function(){
+            let code = "";
+            let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            for (let i = 0; i < 4; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            console.log(code);
+            return code;
+        }
+    },
+    created() {
+        bus.$on("user", (data) => {
+            this.user = data;
+        })
+    }
 }
 </script>
 <style lang="scss">

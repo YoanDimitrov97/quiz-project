@@ -57,7 +57,7 @@ export default {
                 this.isLoggedIn = res.data.isLoggedIn;
                 this.userName = res.data.userName;
                 this.userId = res.data.userId;
-                bus.$emit("userId", this.userId)
+                bus.$emit("user", res.data)
             }).catch(err => { console.log(err) });
     },
     methods: {

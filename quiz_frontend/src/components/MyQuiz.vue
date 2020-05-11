@@ -31,8 +31,8 @@ export default {
         }
     },
     created() {
-        bus.$on("userId", (data) => {
-            this.userId = data
+        bus.$on("user", (data) => {
+            this.userId = data.userId
             // console.log(this.userId);
             Axios.post(process.env.VUE_APP_URL + "/quiz", {
                 createdBy:this.userId
@@ -50,7 +50,7 @@ export default {
                 console.log(error);
             });
         })
-    }
+    },
 }
 </script>
 <style lang="scss">

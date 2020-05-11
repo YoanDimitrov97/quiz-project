@@ -1,10 +1,18 @@
 const router = require('express').Router();
 const path = require('path');
 const Quiz = require("../models/quiz.model");
+const Rooms = require("../models/rooms.model");
 const sessionCheck = require('../../middleware/sessionCheck');
 
 router.route('/').get(sessionCheck, (req, res) => {
 
+})
+
+//loads all quizes
+router.route('/all_quizes').post((req,res) => {
+    Quiz.find().sort({rating : "desc"}).limit(20)
+    .then(doc => res.json(doc))
+    .catch(err => res.status(400).json('Error' + err));
 })
 
 router.route('/quiz').post((req,res) => {
