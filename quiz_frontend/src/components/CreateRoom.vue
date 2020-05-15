@@ -64,7 +64,9 @@ export default {
     },
     mounted() {
         const socket = io();
-        socket.emit("test", "Testing...");
+        socket.on("news", (data) => {
+            console.log(data);
+        });
         this.getRoomInfo();
     },
     // beforeUpdate(){

@@ -22,10 +22,11 @@ app.use(cors({credentials: true, origin: true}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-io.on('connection', function(socket){
-    socket.on('test',(msg) => console.log(msg)); // emit an event to all connected sockets
+io.on('connection', (socket) => {
+    socket.emit('news', { hello: 'world' });
+    //socket.on('test',(msg) => console.log(msg)); // emit an event to all connected sockets
 
-  });
+});
 
 // Sessions
 app.use(session({
