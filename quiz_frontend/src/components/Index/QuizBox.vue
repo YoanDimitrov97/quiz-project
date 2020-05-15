@@ -26,20 +26,19 @@ export default {
     name:"QuizBox",
     props: {
         data: {},
-        user:null,
+        user:{},
     },
     methods: {
         playQuiz: function() {
             this.$router.push('/play/' + this.data._id);
         },
-        createRoom: function() {
-            console.log(this.user);
-            console.log(this.user.length);
-            if(this.user.length > 0){
+        createRoom() {
+            console.log(this.user); 
+            if(this.user.userId){
                 let newCode = this.randomCode();
                 console.log(`New code is: ${newCode}`);
 
-                Axios.post("http://127.0.0.1:5000/create_room", {
+                Axios.post(process.env.VUE_APP_URL + "/create_room", {
                     usersInRoom: [{id: this.user.userId, name: this.user.userName}],
                     quizId: this.data._id,
                     owner:this.user.userId,
@@ -63,12 +62,6 @@ export default {
             return code;
         }
     },
-    created() {
-        bus.$on("user", (data) => {
-            console.log("here");
-            this.user = data;
-        })
-    }
 }
 </script>
 <style lang="scss">
