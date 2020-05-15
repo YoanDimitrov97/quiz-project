@@ -3,26 +3,36 @@
         <Nav />
         <div class="room_wrapper">
             <div class="room_header">
-                <div class="room_counter">Users in Room: {{data.usersInRoom.length}}</div>
+                <div class="room_counter">Users in Room: 1 <!-- {{data.usersInRoom.length}} --></div>
                 <div class="room_start"><p>Start Quiz</p></div>
                 <div class="room_code">Room Code {{code}}</div>
             </div>
             <div class="room_body">
-                <div v-bind:key="user" v-for="user in data.usersInRoom"><p>{{data.user}}</p></div>
+                <div v-bind:key="index" v-for="(user, index) in data.usersInRoom"><p>{{data.user}}</p></div>
             </div>
         </div>
     </div>
 </template>
+<script src="/socket.io-client/socket.io.js"></script>
 <script>
 import Vue from 'vue'
 import Nav from "./Nav.vue"
 import Axios from "axios"
 import {bus} from "../main.js"
-import io from "socket.io-client"
+var socket = io.connect();
+
 export default {
     name:"CreateRoom",
     components: {
         Nav
+    },
+    sockets: {
+        connect: function(){
+            console.log("Connected");
+        },
+        news: function(data){
+            console.log(data);
+        }
     },
     data() {
         return {
@@ -44,18 +54,18 @@ export default {
             })
             .catch(function (error) { console.log(error); });
         },
-        removeUserFromRoom: function() {
-            Axios.post("http://127.0.0.1:5000/remove_from_room", {
-                code:this.code,
-                id:this.user.userId,
-                name:this.user.userName
-            })
-            .then(res => {
-                this.code = res.data.code;
-                this.data = res.data;
-            })
-            .catch(function (error) { console.log(error); });
-        }
+        // removeUserFromRoom: function() {
+        //     Axios.post("http://127.0.0.1:5000/remove_from_room", {
+        //         code:this.code,
+        //         id:this.user.userId,
+        //         name:this.user.userName
+        //     })
+        //     .then(res => {
+        //         this.code = res.data.code;
+        //         this.data = res.data;
+        //     })
+        //     .catch(function (error) { console.log(error); });
+        // }
     },
     created() {
         bus.$on("user", (data) => {
@@ -63,10 +73,6 @@ export default {
         })
     },
     mounted() {
-        const socket = io();
-        socket.on("news", (data) => {
-            console.log(data);
-        });
         this.getRoomInfo();
     },
     // beforeUpdate(){

@@ -29,13 +29,10 @@ export default new Router({
             component:CreateQuiz
         },
         {
-<<<<<<< HEAD
-=======
             path:'/create_quiz/',
             component:CreateQuiz
         },
         {
->>>>>>> Yavor
             path:'/play/:id',
             component:PlayQuiz
         },
@@ -43,12 +40,5 @@ export default new Router({
             path:'/room/:id',
             component:CreateRoom
         },
-<<<<<<< HEAD
-        {
-            path:'/create_quiz',
-            component:CreateQuiz
-        }
-=======
->>>>>>> Yavor
     ]
 })

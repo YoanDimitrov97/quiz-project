@@ -58,7 +58,6 @@ export default {
                 this.userName = res.data.userName;
                 this.userId = res.data.userId;
                 bus.$emit("user", res.data)
-                console.log("Sending");
             }).catch(err => { console.log(err) });
     },
     methods: {

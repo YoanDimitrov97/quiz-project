@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 io.on('connection', (socket) => {
-    socket.emit('news', { hello: 'world' });
+    socket.emit('news', "just testing stuff...");
     //socket.on('test',(msg) => console.log(msg)); // emit an event to all connected sockets
 
 });
@@ -63,6 +63,6 @@ const logoutRouter = require('./routes/logout');
 app.use('/logout', logoutRouter);
 
 //Start the server
-app.listen(port, () => {
+http.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 })
