@@ -1,19 +1,19 @@
 <template>
     <div class="quiz_question" v-on:change=saveChanges v-bind:id=id>
         <div class="question_header">
-            <select v-model="data.questionTime">
+            <select v-model="questionData.questionTime">
                 <option value="" selected disabled>Time</option>
                 <option value="00:10">00:10s</option>
                 <option value="00:15">00:15s</option>
                 <option value="00:30">00:30s</option>
             </select>
             <div class="question_pic">
-                <input type="file" id="quiz_pic" value="Upload Images">
-                <div>
+                <!-- <input type="file" id="quiz_pic" value="Upload Images"> -->
+                <!-- <div>
                     <label class="quiz-label" for="quiz_pic"><p>Upload Image</p><img src="~@/assets/images/upload.svg" alt=""></label>
-                </div>
+                </div> -->
             </div>
-            <select v-model="data.questionPoints" name="" id="">
+            <select v-model="questionData.questionPoints" name="" id="">
                 <option value="" selected disabled>Points</option>
                 <option value="10">10 Points</option>
                 <option value="20">20 Points</option>
@@ -22,26 +22,26 @@
             <img src="img/error.png" alt="">
         </div>
         <div class="question_body">
-            <textarea v-model="data.title" cols="30" placeholder="Write your question here..." rows="10"></textarea>
+            <textarea v-model="questionData.title" cols="30" placeholder="Write your question here..." rows="10"></textarea>
         </div>
         <div class="question_footer">
             <div>
                 <div>
-                    <input v-model="data.answerA" type="text" placeholder="Answer A">
+                    <input v-model="questionData.answerA" type="text" placeholder="Answer A">
                     <img v-on:click="answerClicked('A')" :src="answerCheck == 'A' ? images.clicked : images.default">
                 </div>
                 <div>
-                    <input v-model="data.answerB" type="text" placeholder="Answer B">
+                    <input v-model="questionData.answerB" type="text" placeholder="Answer B">
                     <img v-on:click="answerClicked('B')" :src="answerCheck == 'B' ? images.clicked : images.default">
                 </div>
             </div>
             <div>
                 <div>
-                    <input v-model="data.answerC" type="text" placeholder="Answer C">
+                    <input v-model="questionData.answerC" type="text" placeholder="Answer C">
                     <img v-on:click="answerClicked('C')" :src="answerCheck == 'C' ? images.clicked : images.default">
                 </div>
                 <div>
-                    <input v-model="data.answerD" type="text" placeholder="Answer D">
+                    <input v-model="questionData.answerD" type="text" placeholder="Answer D">
                     <img v-on:click="answerClicked('D')" :src="answerCheck == 'D' ? images.clicked : images.default">
                 </div>
             </div>
@@ -81,16 +81,37 @@ export default {
         id: null,
         questionData: {}
     },
-    // created() {
-    //     const quizId = this.$route.params.id;
-    //     if(quizId){
-    //         Axios.post(process.env.VUE_APP_URL + `/update_quiz`, {
-    //             quizId: quizId
-    //         }).then(res => {
+    created() {
+        // const quizId = this.$route.params.id;
+        // if(quizId){
+        //     Axios.post(process.env.VUE_APP_URL + `/update_quiz`, {
+        //         quizId: quizId
+        //     }).then(res => {
 
-    //         }).catch(err => { console.log(err) });
-    //     } 
-    // },
+        //     }).catch(err => { console.log(err) });
+        // }
+        console.log(this.questionData);
+        console.log(this.questionData.correct);
+        switch(this.questionData.correct) {
+            case 'A':
+                this.answerCheck = 'A';
+                this.data.correct = 'A';
+                break;
+            case 'B':
+                this.answerCheck = 'B';
+                this.data.correct = 'B';
+                break;
+            case 'C':
+                this.answerCheck = 'C';
+                this.data.correct = 'C';
+                break;
+            case 'D':
+                this.answerCheck = 'D';
+                this.data.correct = 'D';
+                break;
+        }
+        console.log(this.questionData);
+    },
     methods: {
         answerClicked(answer) {
             switch(answer) {
@@ -112,7 +133,6 @@ export default {
                     break;
             }
             this.saveChanges();
-            console.log(this.data.correct);
         },
         saveChanges() {
             var sendData = {
@@ -127,7 +147,6 @@ export default {
                 correct: this.data.correct,
             }
             bus.$emit("saveQuestion", sendData)
-            console.log(sendData);
             // console.log("Saving... " + this.id)
         }     
     },

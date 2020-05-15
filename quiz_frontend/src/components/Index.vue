@@ -4,7 +4,7 @@
         <div class="wrapperz">
             <div></div>
             <div class="middle">
-                <QuizBox :data=quiz v-bind:key="quiz" v-for="quiz in quizes" />
+                <QuizBox :data=quiz :user=user v-bind:key="index" v-for="(quiz, index) in quizes" />
             </div>
             <div class="rightside">
                 <EnterCode />
@@ -26,13 +26,13 @@ export default {
     data() {
         return {
             quizes:[],
-            userId:null,
+            user: [],
         }
     },
     methods: {
         //right now loads only logged user's quizes
         loadTopQuizes: function () {
-            Axios.post("http://127.0.0.1:5000/all_quizes")
+            Axios.post(process.env.VUE_APP_URL + "/all_quizes")
             .then(res => {
                 this.quizes = res.data
                 console.log(this.quizes);
@@ -43,11 +43,12 @@ export default {
         } 
     },
     created() {
+        Axios.get(process.env.VUE_APP_URL)
+            .then(res => {
+                this.user = res.data;
+            }).catch(err => { console.log(err) });
         this.loadTopQuizes();
-        bus.$on("user", (data) => {
-            this.userId = data.userId
-        })
-    }
+    },
 }
 </script>
 <style lang="scss">

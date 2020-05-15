@@ -8,8 +8,10 @@
                 <option v-bind:key="option" v-for="option in selectCategories">{{option}}</option>
             </select>
             <input type="text" placeholder="Quiz Title" class="quiz_title" v-model="quizTitle">
+            <input type="file" id="quiz_pic" value="Upload Images">
+            <label class="quiz-label" for="quiz_pic"><p>Upload Image</p><img src="~@/assets/images/upload.svg" alt=""></label>
             <div class="questions" ref="container">
-                <NewQuizQuestion :id="questionNum" :questionData="questionData" v-bind:key="questionNum" v-for="questionNum in questionNum" />
+                <NewQuizQuestion :id="questionNum" :questionData="questionData[questionNum]" v-bind:key="questionNum" v-for="questionNum in questionNum" />
             </div>
             <div class="add-save-container">
                 <div class="add_question" v-on:click="addQuestion"><p>Add New Question</p><img src="~@/assets/images/add.svg"></div>
@@ -51,7 +53,6 @@ export default {
         },
         //Saves only Category, Title and Number of Questions... the actual questions are saved in NewQuizQuestions.vue 
         saveQuiz: function() {
-            console.log(this.questionData);
             Axios.post(process.env.VUE_APP_URL + '/quiz/create', {
                 title: this.quizTitle,
                 numOfQuestions: this.questionNum,
@@ -73,7 +74,6 @@ export default {
                 id: this.quizId,
             })
             .then(res => {
-                console.log(res.data);
                 this.currCateg = res.data.category;
                 this.quizTitle = res.data.title;
                 this.questionNum = res.data.numOfQuestions;
@@ -85,6 +85,7 @@ export default {
         });
     },
     created() {
+        console.log(this.questionData);
         bus.$on("userId", (data) => {
             this.userId = data;
         })
@@ -112,7 +113,30 @@ $categ_w: 700px;
         display:grid;
         grid-template-rows:$categ_h $categ_h calc(100% - #{$categ_h * 2} $categ_h $categ_h); // This must be fixed .... !
         gap:10px;
-
+        #quiz_pic {
+            width:0px;
+            height:0px;
+        }
+        .quiz-label {
+            // width: 180px;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            background: #8C94BE;
+            border-radius: 20px;
+            padding: 4px 4px;
+            img {
+                justify-self: end;
+                align-self: center;
+                width: 30px;
+                margin-left: 10px;
+            }
+            p {
+                margin-left: 10px;
+                justify-self: start;
+                align-self: center;
+                color: #202F53;
+            }
+        }
         .category_select {
             &:first-child {
                 width:100%;

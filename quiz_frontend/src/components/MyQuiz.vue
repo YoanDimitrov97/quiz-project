@@ -1,7 +1,7 @@
 <template>
     <div class="myQuiz_wrapper">
         <Nav /> 
-        <div class="myQuiz_holder">
+        <div v-if="isLoggedIn" class="myQuiz_holder">
             <button v-on:click="$router.push('/create_quiz/')" class="create_quiz_btn"><p>Create New Quiz</p></button>
             <MyQuizBox @deleteQuiz="deleteQuiz" :data=quiz :index=index v-for="(quiz, index) in quizes" v-bind:key="index" />
         </div>
@@ -19,6 +19,7 @@ export default {
     },
      data () {
         return {
+            isLoggedIn: false,
             userId:null,
             quizes:[],
         }
@@ -31,25 +32,36 @@ export default {
         }
     },
     created() {
+        Axios.get(process.env.VUE_APP_URL + '/my_quiz')
+            .then(res => {
+                this.isLoggedIn = res.data.isLoggedIn;
+            }).catch(err => { console.log(err) });
         bus.$on("user", (data) => {
             this.userId = data.userId
             // console.log(this.userId);
-            Axios.post(process.env.VUE_APP_URL + "/quiz", {
-                createdBy:this.userId
-            })
-            .then(res => {
-                // console.log(res.data);
-                if(!res.data.length){
-                    console.log("Some error here !");
-                }else {
-                    this.quizes = res.data;
-                }
-               
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            if(this.isLoggedIn == true){
+                Axios.post(process.env.VUE_APP_URL + "/my_quiz", {
+                    createdBy:this.userId
+                }).then(res => {
+                    // console.log(res.data);
+                    if(!res.data.length){
+                        console.log("Some error here !");
+                    }else {
+                        this.quizes = res.data;
+                    }
+                
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
         })
+        bus.$on('logout', (data) => {
+            console.log(data);
+            this.$router.push({ name: "Index"});
+            // if(data == true){
+                
+            // }
+        });
     },
 }
 </script>

@@ -5,7 +5,7 @@
                 <li><a href="/">Play</a></li>
                 <li><a href="#">Quizes</a></li>
                 <li><a href="#">Plans</a></li>
-                <li v-if="isLoggedIn"><a href="my_quiz">Create a Quiz</a></li>
+                <li v-if="isLoggedIn"><a href="/my_quiz">Create a Quiz</a></li>
             </ul>
             <ul class="nav_login" v-show="showLogin">
                 <div v-if="!isLoggedIn" class="login_section">
@@ -58,6 +58,7 @@ export default {
                 this.userName = res.data.userName;
                 this.userId = res.data.userId;
                 bus.$emit("user", res.data)
+                console.log("Sending");
             }).catch(err => { console.log(err) });
     },
     methods: {
@@ -101,6 +102,7 @@ export default {
             this.rotateArrow = true;
             this.profileNavClicked = false;
             this.isLoggedIn = value;
+            bus.$emit('logout', this.isLoggedIn);
         },
     }
 }
