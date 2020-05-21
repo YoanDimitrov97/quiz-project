@@ -15,10 +15,6 @@ router.route('/all_quizes').post((req,res) => {
     .catch(err => res.status(400).json('Error' + err));
 })
 
-router.route('/my_quiz').get(sessionCheck, (req, res) => {
-
-})
-
 router.route('/my_quiz').post((req,res) => {
     // console.log(req.body.createdBy);
     Quiz.find({"createdBy": req.body.createdBy})

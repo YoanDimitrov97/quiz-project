@@ -2,7 +2,7 @@
 <div class="special-background">
     <Nav /> 
     <div class="wrapper">
-        <div class="create_quiz" v-bind:test=quizId>
+        <div v-if="userId" class="create_quiz" v-bind:test=quizId>
             <select v-model="currCateg" class="category_select">
                 <option disabled selected="selected" value>Select Category</option>
                 <option v-bind:key="option" v-for="option in selectCategories">{{option}}</option>
@@ -42,9 +42,10 @@ export default {
             selectCategories: ["History", "Education", "Trivia", "Movies"],
             currCateg:"",//default
             quizTitle:"",
-            questionNum:1,   
+            questionNum:0,   
             questionData:{},//stores child components question data
-            userId: ""
+            userId: "",
+            questionDataForSave: {}
         }
     },
     methods: {
@@ -56,7 +57,7 @@ export default {
             Axios.post(process.env.VUE_APP_URL + '/quiz/create', {
                 title: this.quizTitle,
                 numOfQuestions: this.questionNum,
-                questions: this.questionData,
+                questions: this.questionDataForSave,
                 category: this.currCateg,
                 createdBy: this.userId
             })
@@ -81,13 +82,12 @@ export default {
             }).catch(err => { console.log(err) });
         }
         bus.$on("saveQuestion", (data) => {
-            this.questionData[data.id] = data;  
+            this.questionDataForSave[data.id] = data;  
         });
     },
     created() {
-        console.log(this.questionData);
-        bus.$on("userId", (data) => {
-            this.userId = data;
+        bus.$on("user", (data) => {
+            this.userId = data.userId;
         })
     }
 }
