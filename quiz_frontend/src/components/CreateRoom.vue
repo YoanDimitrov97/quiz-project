@@ -13,13 +13,14 @@
         </div>
     </div>
 </template>
-<script src="/socket.io-client/socket.io.js"></script>
+<!-- <script src="../../node_modules/socket.io-client/socket.io.js"></script>
+// <script src=""></script> -->
 <script>
 import Vue from 'vue'
 import Nav from "./Nav.vue"
 import Axios from "axios"
 import {bus} from "../main.js"
-var socket = io.connect();
+// var socket = io.connect();
 
 export default {
     name:"CreateRoom",
@@ -42,7 +43,6 @@ export default {
             user:null,
         }
     },
-        
     methods: {
         getRoomInfo: function() {
             Axios.post("http://127.0.0.1:5000/get_room", {
