@@ -16,21 +16,18 @@ router.route('/all_quizes').post((req,res) => {
 })
 
 router.route('/my_quiz').post((req,res) => {
-    // console.log(req.body.createdBy);
     Quiz.find({"createdBy": req.body.createdBy})
     .then(doc => res.json(doc))
     .catch(err => res.status(400).json('Error' + err));
 })
 
 router.route('/specific_quiz').post((req,res) => {
-    // console.log(req.body);
     Quiz.findOne({_id:req.body.id})
     .then(doc => res.json(doc))
     .catch(err => res.status(400).json('Error' + err));
 })
 
 router.route('/quiz/create').post((req,res) => {
-    console.log(req.body);
     const title = req.body.title;
     const numOfQuestions = req.body.numOfQuestions;
     const questions = req.body.questions;
@@ -67,7 +64,6 @@ router.route('/quiz/create').post((req,res) => {
 })
 
 router.route('/update_quiz').put((req, res) => {
-    // console.log(req.body.quizId);
     Quiz.findOne({_id:req.body.quizId})
         .then(doc => res.json(doc))
         .catch(err => res.status(400).json('Error' + err));
@@ -77,6 +73,14 @@ router.route('/quiz/delete').post((req, res) => {
     Quiz.deleteOne({ _id: req.body.quizId})
         .then(() => res.json(req.body.quizId))
         .catch(err => {console.log(err)});
+});
+
+router.route('/create_quiz/delete_question').post((req, res) => {
+   var query = { id: req.body.questionId};
+   Quiz.findOneAndUpdate({ _id: req.body.quizId}, { $pull: {questions: query}, $inc: {numOfQuestions: -1}})
+        .then(() => {
+            res.json("Successfully delete this question");  
+        }).catch(err => {console.log(err)});
 });
 
 module.exports = router;

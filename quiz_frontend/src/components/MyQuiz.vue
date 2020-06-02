@@ -3,7 +3,7 @@
         <Nav /> 
         <div v-if="userId" class="myQuiz_holder">
             <button v-on:click="$router.push('/create_quiz/')" class="create_quiz_btn"><p>Create New Quiz</p></button>
-            <MyQuizBox @deleteQuiz="deleteQuiz" :data=quiz :index=index v-for="(quiz, index) in quizes" v-bind:key="index" />
+            <MyQuizBox @deleteQuiz="deleteQuiz" :data=quiz :index=index v-for="(quiz, index) in quizes" :key="index" />
         </div>
     </div>
 </template>
@@ -20,17 +20,17 @@ export default {
      data () {
         return {
             userId:null,
-            quizes:[],
+            quizes:{},
         }
     },
     methods: {
         deleteQuiz(id) {
-            if(id) {
-                this.quizes.splice(id, 1);
-            }
+            // this.quizes.splice(id, 1);
+            this.$delete(this.quizes, id);
         }
     },
     created() {
+        
         bus.$on("user", (data) => {
             this.userId = data.userId
             if(this.userId){
@@ -42,15 +42,16 @@ export default {
                         console.log("Some error here !");
                     }else {
                         this.quizes = res.data;
+                        console.log(this.quizes);
                     }
                 
                 }).catch(function (error) {
                     console.log(error);
                 });
             }
+            
         })
         bus.$on('logout', (data) => {
-            console.log(data);
             this.$router.push({ name: "Index"});
         });
     },

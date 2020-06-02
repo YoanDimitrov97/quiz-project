@@ -11,7 +11,7 @@
             <input type="file" id="quiz_pic" value="Upload Images">
             <label class="quiz-label" for="quiz_pic"><p>Upload Image</p><img src="~@/assets/images/upload.svg" alt=""></label>
             <div class="questions" ref="container">
-                <NewQuizQuestion :id="questionNum" :questionData="questionData[questionNum]" v-bind:key="questionNum" v-for="questionNum in questionNum" />
+                <NewQuizQuestion :id="questionNum" :quizId="quizId" :questionData="questionData[questionNum]" :key="questionNum" v-for="questionNum in questionNum" @deleteQuestion="deleteQuestion" />
             </div>
             <div class="add-save-container">
                 <div class="add_question" v-on:click="addQuestion"><p>Add New Question</p><img src="~@/assets/images/add.svg"></div>
@@ -45,15 +45,20 @@ export default {
             questionNum:0,   
             questionData:{},//stores child components question data
             userId: "",
-            questionDataForSave: {}
+            questionDataForSave: []
         }
     },
     methods: {
+        deleteQuestion(id) {
+            console.log(id);
+            this.questionNum -= 1
+        },
         addQuestion: function () {
             this.questionNum += 1
         },
         //Saves only Category, Title and Number of Questions... the actual questions are saved in NewQuizQuestions.vue 
         saveQuiz: function() {
+            console.log(this.questionDataForSave);
             Axios.post(process.env.VUE_APP_URL + '/quiz/create', {
                 title: this.quizTitle,
                 numOfQuestions: this.questionNum,
@@ -78,11 +83,14 @@ export default {
                 this.currCateg = res.data.category;
                 this.quizTitle = res.data.title;
                 this.questionNum = res.data.numOfQuestions;
-                this.questionData = res.data.questions[0];
+                this.questionData = res.data.questions;
             }).catch(err => { console.log(err) });
         }
         bus.$on("saveQuestion", (data) => {
-            this.questionDataForSave[data.id] = data;  
+            if(data != null) {
+                this.questionDataForSave[data.id] = data;  
+            }
+            
         });
     },
     created() {

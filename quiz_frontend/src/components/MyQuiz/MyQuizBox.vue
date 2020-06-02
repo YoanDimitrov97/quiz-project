@@ -13,8 +13,8 @@
             <p>{{data.title}}</p>
         </div>
         <div class="footer">
-            <div v-on:click="editQuiz" v-bind:quizid="data._id" class="play_quiz"><p>Edit Quiz</p></div>
-            <div v-on:click="deleteQuiz" v-bind:quizid="data._id" class="play_quiz"><p>Delete Quiz</p></div>
+            <div v-on:click="editQuiz" :quizid="data._id" class="play_quiz"><p>Edit Quiz</p></div>
+            <div v-on:click="deleteQuiz" :quizid="data._id" class="play_quiz"><p>Delete Quiz</p></div>
         </div>
     </div>
 </div>
@@ -36,10 +36,14 @@ export default {
                 quizId: this.data._id
             })
             .then(res => {
+                console.log(this.index + "INDEX");
                 this.$emit('deleteQuiz', this.index);
             }).catch(err => {console.log(err)});
         }
     },
+    mounted() {
+        console.log(this.index);
+    }
 }
 </script>
 <style lang="scss">

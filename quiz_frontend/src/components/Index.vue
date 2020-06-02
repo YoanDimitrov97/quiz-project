@@ -43,10 +43,9 @@ export default {
         } 
     },
     created() {
-        Axios.get(process.env.VUE_APP_URL)
-            .then(res => {
-                this.user = res.data;
-            }).catch(err => { console.log(err) });
+        bus.$on("user", (data) => {
+            this.user = data;
+        });
         this.loadTopQuizes();
     },
 }

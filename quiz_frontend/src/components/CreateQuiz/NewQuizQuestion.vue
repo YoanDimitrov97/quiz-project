@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="question-delete">
-            <div class="delete-btn"><p>Delete Question</p><img src="~@/assets/images/Delete.svg" alt=""></div>
+            <div v-on:click="deleteQuestion" class="delete-btn"><p>Delete Question</p><img src="~@/assets/images/Delete.svg" alt=""></div>
         </div>
     </div>
 </template>
@@ -82,14 +82,13 @@ export default {
     },
     props: {
         id: null,
-        questionData: {}
+        questionData: {},
+        quizId: null,
     },
     created() {
         if(!this.questionData) {
-            console.log("IF");
             this.data2 = this.data;
         }else {
-            console.log("ELSE");
             this.data2 = this.questionData;
         }     
 
@@ -101,8 +100,6 @@ export default {
 
         //     }).catch(err => { console.log(err) });
         // }
-        console.log(this.id);
-        console.log(this.data2.correct);
         switch(this.data2.correct) {
             case 'A':
                 this.answerCheck = 'A';
@@ -157,6 +154,16 @@ export default {
                 correct: this.data.correct,
             }
             bus.$emit("saveQuestion", sendData)
+        },
+        deleteQuestion() {
+            // console.log(this.quizId);
+            Axios.post(process.env.VUE_APP_URL + '/create_quiz/delete_question', {
+                quizId: this.quizId,
+                questionId: this.id
+            }).then(res => {
+                console.log(res.data + " 1111");
+                this.$emit("deleteQuestion", this.id); // Emit this event, so it can decrease the Number of questions !
+            }).catch(err => { console.log(err) });
         }     
     },
 }
