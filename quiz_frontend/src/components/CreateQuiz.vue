@@ -15,7 +15,7 @@
             </div>
             <div class="add-save-container">
                 <div class="add_question" v-on:click="addQuestion"><p>Add New Question</p><img src="~@/assets/images/add.svg"></div>
-                <div class="save_quiz" v-on:click="saveQuiz"><p>Save Quiz</p><img src="~@/assets/images/Save.svg"></div>
+                <div class="save_quiz" v-on:click="saveQuiz"><p>{{ buttonName }} Quiz</p><img src="~@/assets/images/Save.svg"></div>
             </div> 
         </div>
     </div>
@@ -45,7 +45,9 @@ export default {
             questionNum:0,   
             questionData:{},//stores child components question data
             userId: "",
-            questionDataForSave: []
+            questionDataForSave: [],
+            buttonName: "Save", // Save or Edit button
+            buttonClass: false,
         }
     },
     methods: {
@@ -89,11 +91,17 @@ export default {
         bus.$on("saveQuestion", (data) => {
             if(data != null) {
                 this.questionDataForSave[data.id] = data;  
-            }
-            
+            } 
         });
+        
     },
     created() {
+        bus.$on('edit', (data) => {
+            console.log(data);
+            console.log("peshooooo");
+            this.buttonClass = true;
+            this.buttonName = "Edit";
+        });
         bus.$on("user", (data) => {
             this.userId = data.userId;
         })

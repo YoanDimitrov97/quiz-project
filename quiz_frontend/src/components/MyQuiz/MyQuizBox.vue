@@ -21,6 +21,7 @@
 </template>
 <script>
 import Axios from 'axios';
+import {bus} from "../../main";
 export default {
     name:"MyQuizBox",
     props: {
@@ -29,7 +30,8 @@ export default {
     },
     methods: {
         editQuiz() {
-            this.$router.push({ path: `/create_quiz/${this.data._id}`});
+            bus.$emit('edit', this.index);
+            this.$router.push({ path: `/edit_quiz/${this.data._id}`});
         },
         deleteQuiz() {
             Axios.post(process.env.VUE_APP_URL + '/quiz/delete', {
@@ -41,9 +43,6 @@ export default {
             }).catch(err => {console.log(err)});
         }
     },
-    mounted() {
-        console.log(this.index);
-    }
 }
 </script>
 <style lang="scss">
