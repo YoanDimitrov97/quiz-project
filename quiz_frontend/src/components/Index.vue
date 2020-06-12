@@ -4,7 +4,12 @@
         <div class="wrapperz">
             <div></div>
             <div class="middle">
-                <QuizBox :data=quiz :user=user v-bind:key="index" v-for="(quiz, index) in quizes" />
+                <QuizBox
+                    :data="quiz"
+                    :user="user"
+                    v-bind:key="index"
+                    v-for="(quiz, index) in quizes"
+                />
             </div>
             <div class="rightside">
                 <EnterCode />
@@ -13,34 +18,36 @@
     </div>
 </template>
 <script>
-import Nav from "./Nav.vue"
-import QuizBox from "./Index/QuizBox.vue"
-import EnterCode from "./Index/EnterCode.vue"
-import Axios from 'axios'
-import {bus} from "../main.js"
+import Nav from "./Nav.vue";
+import QuizBox from "./Index/QuizBox.vue";
+import EnterCode from "./Index/EnterCode.vue";
+import Axios from "axios";
+import { bus } from "../main.js";
 export default {
-    name:"Index",
+    name: "Index",
     components: {
-        Nav, QuizBox, EnterCode
+        Nav,
+        QuizBox,
+        EnterCode,
     },
     data() {
         return {
-            quizes:[],
+            quizes: [],
             user: [],
-        }
+        };
     },
     methods: {
         //right now loads only logged user's quizes
-        loadTopQuizes: function () {
+        loadTopQuizes: function() {
             Axios.post(process.env.VUE_APP_URL + "/all_quizes")
-            .then(res => {
-                this.quizes = res.data
-                console.log(this.quizes);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        } 
+                .then((res) => {
+                    this.quizes = res.data;
+                    console.log(this.quizes);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        },
     },
     created() {
         bus.$on("user", (data) => {
@@ -48,26 +55,25 @@ export default {
         });
         this.loadTopQuizes();
     },
-}
+};
 </script>
 <style lang="scss">
 .wrapperz {
+    width: 100%;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    justify-items: center;
     position: absolute;
-    width:100%;
-    margin-top:10px;
-    display:grid;
-    grid-template-columns:30% 40% 30%;
-    justify-items:center;
-    position:absolute;
-    z-index:1;
+    z-index: 1;
 
     .middle {
         justify-self: center;
-        overflow:auto;
-        height:calc(100vh - 70px);
+        overflow: auto;
+        height: calc(100vh - 70px);
 
         & > * {
-            margin-bottom:10px;
+            margin-bottom: 10px;
         }
     }
     .right-side {

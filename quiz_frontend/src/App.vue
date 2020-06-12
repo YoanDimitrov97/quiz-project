@@ -1,14 +1,14 @@
 <!-- CREATE QUIZ -->
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+    <div id="app">
+        <router-view />
+    </div>
 </template>
 
 <script>
 export default {
-    name: 'app',
-}
+    name: "app",
+};
 </script>
 
 <style lang="scss">
@@ -18,21 +18,22 @@ export default {
 }
 
 * {
-  padding:0;
-  margin:0;
-  list-style:none;
-  text-decoration:none;
-  font-family:"Estandar";
-  box-sizing:border-box;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: "Estandar";
+    box-sizing: border-box;
 }
 
 body {
-  overflow:hidden;
+    overflow: hidden;
 }
 
 #app {
-  min-height:100vh;
-  height:100%;
-  background: transparent linear-gradient(1deg, #1C011B 0%, #5D083C 100%) 0% 0% no-repeat padding-box;
+    min-height: 100vh;
+    height: 100%;
+    background: transparent linear-gradient(1deg, #1c011b 0%, #5d083c 100%) 0%
+        0% no-repeat padding-box;
 }
 </style>
