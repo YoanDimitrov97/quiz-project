@@ -3,6 +3,26 @@ const path = require("path");
 const Quiz = require("../models/quiz.model");
 const Rooms = require("../models/rooms.model");
 const sessionCheck = require("../../middleware/sessionCheck");
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "../src/assets/uploads");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + "-" + Date.now());
+    },
+});
+const multerFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith("image")) {
+        cb(null, true);
+    } else {
+        cb(new AppError("Not an image! Please upload an image.", 400), false);
+    }
+};
+const upload = multer({
+    storage: storage,
+    fileFilter: multerFilter,
+});
 
 router.route("/").get(sessionCheck, (req, res) => {});
 
@@ -63,7 +83,6 @@ router.route("/quiz/edit").post((req, res) => {
     const createdOn = new Date();
     const createdBy = req.body.createdBy;
     var query = { createdBy: createdBy, _id: quizId };
-    console.log("LOG");
     Quiz.findOneAndUpdate(query, {
         title: title,
         numOfQuestions: numOfQuestions,
@@ -75,6 +94,10 @@ router.route("/quiz/edit").post((req, res) => {
     })
         .then(() => res.json("Quiz Updated!"))
         .catch((err) => res.status(400).json(`Err ${err}`));
+});
+
+router.route("/quiz/upload_image").post((req, res) => {
+    console.log(req.body);
 });
 
 router.route("/update_quiz").put((req, res) => {

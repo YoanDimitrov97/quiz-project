@@ -19,11 +19,33 @@
                     class="quiz_title"
                     v-model="quizTitle"
                 />
-                <input type="file" id="quiz_pic" value="Upload Images" />
+                <input
+                    @change="loadImage($event)"
+                    accept="image/*"
+                    type="file"
+                    id="quiz_pic"
+                    name="quiz_pic"
+                    value="Upload Images"
+                />
                 <label class="quiz-label" for="quiz_pic">
                     <p>Upload Image</p>
                     <img src="~@/assets/images/upload.svg" alt />
                 </label>
+                <img
+                    :src="image"
+                    class="imagePreview"
+                    v-if="loadImagePreview"
+                />
+                <Cropper
+                    v-show="loadCropper"
+                    :src="image"
+                    class="upload-cropper"
+                    :stencil-props="{
+                        aspectRatio: 16 / 9,
+                    }"
+                    ref="cropper"
+                />
+                <button v-if="loadCropper" @click="crop">Crop Image</button>
                 <div class="questions" ref="container">
                     <NewQuizQuestion
                         :id="questionNum"
@@ -56,12 +78,15 @@ import Vue from "vue";
 import Axios from "axios";
 import { bus } from "../main.js";
 import { mapState } from "vuex";
+import { Cropper } from "vue-advanced-cropper";
+import FormData from "form-data";
 
 export default {
     name: "CreateQuiz",
     components: {
         Nav,
         NewQuizQuestion,
+        Cropper,
     },
     data() {
         return {
@@ -73,7 +98,15 @@ export default {
             questionNum: 0,
             questionData: {}, //stores child components question data
             userId: "",
-            test: "",
+            image: null,
+            loadCropper: false,
+            loadImagePreview: false,
+            imageCoordinates: {
+                width: 0,
+                height: 0,
+                left: 0,
+                top: 0,
+            },
             questionDataForSave: [],
         };
     },
@@ -81,6 +114,25 @@ export default {
         ...mapState(["editButton"]),
     },
     methods: {
+        crop() {
+            const { coordinates, canvas } = this.$refs.cropper.getResult();
+            this.imageCoordinates = coordinates;
+            this.image = canvas.toDataURL();
+            this.loadCropper = false;
+            this.loadImagePreview = true;
+        },
+        loadImage(event) {
+            let input = event.target;
+            if (input.files && input.files[0]) {
+                this.loadImagePreview = false;
+                this.loadCropper = true;
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.image = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        },
         deleteQuestion(id) {
             this.questionNum -= 1;
         },
@@ -88,11 +140,8 @@ export default {
             this.questionNum += 1;
         },
         //Saves only Category, Title and Number of Questions... the actual questions are saved in NewQuizQuestions.vue
-        saveQuiz: function() {
-            // console.log(this.editButton.class);
-            // console.log(this.editButton.name);
+        saveQuiz() {
             if (this.editButton.class == true) {
-                // console.log("Save");
                 Axios.post(process.env.VUE_APP_URL + "/quiz/create", {
                     title: this.quizTitle,
                     numOfQuestions: this.questionNum,
@@ -107,8 +156,6 @@ export default {
                         console.log(err);
                     });
             } else {
-                // console.log("Edit");
-                console.log(this.quizId);
                 Axios.post(process.env.VUE_APP_URL + "/quiz/edit", {
                     quizId: this.quizId,
                     title: this.quizTitle,
@@ -201,6 +248,24 @@ $categ_w: 700px;
                 align-self: center;
                 color: #202f53;
             }
+        }
+        .imagePreview {
+            border-radius: 10px;
+            height: 350px;
+            width: 100%;
+        }
+        .upload-cropper {
+            border-radius: 10px;
+            background: #000;
+            height: 350px;
+            width: 100%;
+        }
+        button {
+            justify-self: center;
+            width: 150px;
+            height: 30px;
+            border-radius: 20px;
+            border: none;
         }
         .category_select {
             &:first-child {
