@@ -13,7 +13,7 @@ export const bus = new Vue();
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: "http://127.0.0.1:5000",
+  connection: SocketIO(process.env.VUE_APP_URL),
   })
 );
 

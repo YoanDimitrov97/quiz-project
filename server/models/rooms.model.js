@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const roomSchema = new Schema({
     id:{type:mongoose.Types.ObjectId},
-    usersInRoom:Array,
+    usersInRoom:{type:Array},
     quizId:{type:mongoose.Types.ObjectId, ref: "Quiz"},
     owner:{type:mongoose.Types.ObjectId, ref: "User"},
     code:{type:String},

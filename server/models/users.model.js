@@ -8,8 +8,9 @@ const userSchema = new Schema({
     lastName: {type:String},
     password:{type:String},
     email:{type:String},
-    createdOn:{type:Date},
     completedQuizes:{type:Array},
+}, {
+    timestamps:true
 });
 
 

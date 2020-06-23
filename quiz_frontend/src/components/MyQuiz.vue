@@ -8,10 +8,11 @@
     </div>
 </template>
 <script>
-import Nav from "./Nav.vue"
-import MyQuizBox from "./MyQuiz/MyQuizBox.vue"
+
 import Axios from 'axios'
 import {bus} from "../main.js"
+import Nav from "./Nav.vue"
+import MyQuizBox from "./MyQuiz/MyQuizBox.vue"
 export default {
     name:"MyQuiz",
     components: {

@@ -6,8 +6,9 @@ const cors = require("cors");
 const MongoStore = require('connect-mongo')(session);
 
 const app = express();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const server = require('http').Server(app);
+//var http = require('http').createServer(app);
+var io = require('socket.io')(server);
 const port = process.env.PORT || 5000;
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 io.on('connection', (socket) => {
-    socket.emit('news', "just testing stuff...");
+    socket.emit('connect', { hello: 'world' });
     //socket.on('test',(msg) => console.log(msg)); // emit an event to all connected sockets
 
 });
@@ -63,6 +64,6 @@ const logoutRouter = require('./routes/logout');
 app.use('/logout', logoutRouter);
 
 //Start the server
-http.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 })

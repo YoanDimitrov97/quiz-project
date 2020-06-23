@@ -33,7 +33,6 @@ export default {
             this.$router.push('/play/' + this.data._id);
         },
         createRoom() {
-            console.log(this.user); 
             if(this.user.userId){
                 let newCode = this.randomCode();
                 console.log(`New code is: ${newCode}`);
@@ -61,6 +60,11 @@ export default {
             console.log(code);
             return code;
         }
+    },
+    created() {
+        bus.$on("user", (data) => {
+            this.user = data;
+        })
     },
 }
 </script>

@@ -8,7 +8,7 @@
                 <div class="room_code">Room Code {{code}}</div>
             </div>
             <div class="room_body">
-                <div v-bind:key="index" v-for="(user, index) in data.usersInRoom"><p>{{data.user}}</p></div>
+                <div v-bind:key="index" v-for="(user, index) in data.usersInRoom"><p>{{data.usersInRoom[index].name}}</p></div>
             </div>
         </div>
     </div>
@@ -21,23 +21,29 @@ import Nav from "./Nav.vue"
 import Axios from "axios"
 import {bus} from "../main.js"
 // var socket = io.connect();
-
+new Vue({
+sockets: {  
+        connect: function(data){
+            console.log("pesjho");
+        }
+    },
+})
 export default {
     name:"CreateRoom",
     components: {
         Nav
     },
     sockets: {
-        connect: function(){
-            console.log("Connected");
+        connect: function () {
+            console.log('socket connected')
         },
-        news: function(data){
-            console.log(data);
+        customEmit: function (data) {
+            console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
         }
     },
     data() {
         return {
-            data:null,
+            data:{usersInRoom:[""]},
             roomId: this.$route.params.id,
             code: null,
             user:null,
@@ -45,27 +51,28 @@ export default {
     },
     methods: {
         getRoomInfo: function() {
-            Axios.post("http://127.0.0.1:5000/get_room", {
+            Axios.post(process.env.VUE_APP_URL+"/get_room", {
                 id: this.roomId,
+            })
+            .then(res => {
+                this.code = res.data.code;
+                this.data = res.data;
+                console.log(res.data);
+            })
+            .catch(function (error) { console.log(error); });
+        },
+        removeUserFromRoom: function() {
+            Axios.post(process.env.VUE_APP_URL+"/remove_from_room", {
+                code:this.code,
+                id:this.user.userId,
+                name:this.user.userName
             })
             .then(res => {
                 this.code = res.data.code;
                 this.data = res.data;
             })
             .catch(function (error) { console.log(error); });
-        },
-        // removeUserFromRoom: function() {
-        //     Axios.post("http://127.0.0.1:5000/remove_from_room", {
-        //         code:this.code,
-        //         id:this.user.userId,
-        //         name:this.user.userName
-        //     })
-        //     .then(res => {
-        //         this.code = res.data.code;
-        //         this.data = res.data;
-        //     })
-        //     .catch(function (error) { console.log(error); });
-        // }
+        }
     },
     created() {
         bus.$on("user", (data) => {

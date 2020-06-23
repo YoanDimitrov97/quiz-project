@@ -8,7 +8,6 @@ const quizSchema = new Schema({
     questions:{type:Array},
     category: {type: String},
     rating:{type:Number},
-    createdOn:{type:Date},
     createdBy:{type:mongoose.Types.ObjectId, ref: 'User'},
 }, {
     timestamps:true
